@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class CompanyController {
 
-	@RequestMapping(value = "/comp/loginForm.do", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value = "/comp/login.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String login(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		
