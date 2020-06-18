@@ -16,9 +16,9 @@
 </head>
 <body>
 	<h3>메인 페이지</h3>
-	<a href="${contextPath}/free/loginForm.do">프리랜서</a>
+	<a href="${contextPath}/free/login.do">프리랜서</a>
 	<br>
 	<hr>
-	<a href="${contextPath}/comp/loginForm.do">기업</a>	
+	<a href="${contextPath}/comp/login.do">기업</a>	
 </body>
 </html>
