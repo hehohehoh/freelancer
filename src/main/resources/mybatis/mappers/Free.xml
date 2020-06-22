@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.freelancer.mappers.FreeMapper">
+
+	<resultMap id="freeResult" type="freeVO">
+		<result property="free_id" column="free_id" />
+		<result property="free_pw" column="free_pw" />
+		<result property="free_firstName" column="free_firstName" />
+		<result property="free_lastName" column="free_lastName" />
+		<result property="free_hp" column="free_hp" />
+		<result property="free_bir" column="free_bir" />
+		<result property="free_gender" column="free_gender" />
+		<result property="free_email" column="free_email" />
+		<result property="free_joinDate" column="free_joinDate" />
+		<result property="free_picture" column="free_picture" />
+		<result property="free_career" column="free_career" />
+		<result property="free_state" column="free_state" />
+		<result property="free_stop" column="free_stop" />
+		<result property="free_pay" column="free_pay" />
+		<result property="free_level" column="free_level" />
+		<result property="free_intro" column="free_intro" />
+		<result property="free_file" column="free_file" />
+		<result property="free_addr" column="free_addr" />
+	</resultMap>
+	
+	<select id="selectAllFreelancersList" resultMap="freeResult">
+		SELECT * FROM
+		fr.free_info ORDER BY free_joinDate DESC
+	</select>
+	
+	<insert id="insertFree" parameterType="freeVO">
+		INSERT INTO	fr.free_info
+		VALUES(#{free_id}, #{free_pw}, #{free_firstName}, #{free_lastName},
+			 #{free_hp}, #{free_bir}, #{free_gender}, #{free_email}, default, 
+			 null, #{free_career}, default, default, null, #{free_level}, null, null, #{free_addr})
+	</insert>
+
+
+	
+
+
+</mapper>
