@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.spring.freelancer.mappers.CompMapper">
+	
+	<resultMap id="compResult" type="companyVO">
+		<result property="comp_id" column="comp_id" />
+		<result property="comp_pw" column="comp_pw" />
+		<result property="comp_mname" column="comp_mname" />
+		<result property="comp_mhp" column="comp_mhp" />
+		<result property="comp_memail" column="comp_memail" />
+		<result property="comp_bnum" column="comp_bnum" />
+		<result property="comp_career" column="comp_career" />
+		<result property="comp_name" column="comp_name" />
+		<result property="comp_stop" column="comp_stop" />
+		<result property="comp_joindate" column="comp_joindate" />
+		
+		<result property="comp_cnum" column="comp_cnum" />
+		<result property="comp_pname" column="comp_pname" />
+		<result property="comp_pwork" column="comp_pwork" />
+		<result property="comp_startdate" column="comp_startdate" />
+		<result property="comp_finishdate" column="comp_finishdate" />  
+	</resultMap> 
+	
+	<insert id="insertCompInfo"  parameterType="companyVO">
+		insert into comp_info
+		values(#{comp_id}, #{comp_pw}, #{comp_mname}, #{comp_mhp}, #{comp_memail}, #{comp_bnum}, default, #{comp_name}, 3, default)     
+	</insert>
+	
+	<select id="checkOverId" resultType="int"  parameterType="String" >
+		select count(*) from comp_info where comp_id = #{comp_id}
+	</select>
+	
+	<select id="compApproList" resultType="companyVO">
+		select *
+		from comp_info
+		where comp_stop = 3
+	</select>
+	
+</mapper>
