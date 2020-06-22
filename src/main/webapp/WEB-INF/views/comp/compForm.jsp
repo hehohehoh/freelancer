@@ -15,6 +15,30 @@
 <head>
 <meta charset="UTF-8">
 <title>기업 회원가입</title>
+	
+	<!-- 아이디중복체크 -->
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script>
+	function checkId(){
+	    var comp_id = ($('#comp_id').val)();
+	    $.ajax({
+	        url:'${contextPath}/comp/overlap.do',
+	        type:'post',
+	        data:{comp_id:comp_id},
+	        success:function(data){
+	            if($.trim(data)==0){
+	                $('#chkMsg').html("사용가능한 ID입니다.");
+	            }else{
+	                $('#chkMsg').html("ID가 중복되었습니다");
+	            }
+	        },
+	        error:function(){
+	        	alert("에러입니다");	
+	        }
+	     });
+	};
+	</script>
+	
 	<script>
 		function button1_click() {
           		var pw1 = document.getElementById("comp_pw");
@@ -63,7 +87,9 @@ function inNumber(){
 	<table  align="center">
 	   <tr>
 	      <td width="200"><p align="right">아이디</td>
-	      <td width="400"><input type="text" name="comp_id"></td>
+	      <td width="400"><input type="text" name="comp_id" id="comp_id" oninput="checkId()" />
+		<br><span id = "chkMsg"></span>
+		</td> 
 	   </tr>
 	   <tr>
 	      <td width="200"><p align="right">비밀번호</td>
