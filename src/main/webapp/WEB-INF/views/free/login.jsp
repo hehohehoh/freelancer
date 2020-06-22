@@ -20,6 +20,8 @@
 	아이디: <input type="text" name="id" />
 	비밀번호: <input type="password" name="pw" />
 	</form>
-	<a href="">회원가입하기</a>
+	<a href="${contextPath}/free/form.do">회원가입하기</a>
+	<a href="${contextPath}/free/listFreelancers.do">프리랜서 목록 보기</a>
+	
 </body>
 </html>
