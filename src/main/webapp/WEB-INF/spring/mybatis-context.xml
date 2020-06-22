@@ -36,5 +36,13 @@
 	    <constructor-arg ref= "sqlSessionFactory"></constructor-arg >
 	</bean >
 
+	<bean id="baseMapper" class="org.mybatis.spring.mapper.MapperFactoryBean" abstract="true" lazy-init="true">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+   
+   
+	<bean id="freeMapper" parent="baseMapper">
+		<property name="mapperInterface" value="com.spring.freelancer.mappers.FreeMapper" />
+	</bean>
 
 </beans>
