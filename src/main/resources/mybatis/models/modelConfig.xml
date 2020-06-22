@@ -5,12 +5,12 @@
 <configuration>
 	
 	<settings>
-  	<setting name="mapUnderscoreToCamelCase" value="true"/>
+  		<setting name="mapUnderscoreToCamelCase" value="true"/>
 	</settings>
 
-  <typeAliases>
-  
-  </typeAliases>
+	<typeAliases>
+  		<typeAlias type="com.spring.freelancer.free.FreeVO" alias="FreeVO" />
+  	</typeAliases>
 </configuration>
 
 
