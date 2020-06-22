@@ -27,7 +27,11 @@
 	        data:{comp_id:comp_id},
 	        success:function(data){
 	            if($.trim(data)==0){
-	                $('#chkMsg').html("사용가능한 ID입니다.");
+	                if(comp_id ==""){
+	        	    $('#chkMsg').html(" ");
+	        	}else{
+	                    $('#chkMsg').html("사용가능한 ID입니다.");
+	        	}
 	            }else{
 	                $('#chkMsg').html("ID가 중복되었습니다");
 	            }
