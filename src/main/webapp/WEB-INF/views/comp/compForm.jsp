@@ -11,9 +11,23 @@
 %> 
 <!DOCTYPE html>
 <html>
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <head>
 <meta charset="UTF-8">
 <title>기업 회원가입</title>
+	<script>
+		function button1_click() {
+          		var pw1 = document.getElementById("comp_pw");
+          		var pw2 = document.getElementById("comp_pw_re");
+           		var divs = $("#pw");
+          		if(pw1.value==pw2.value){
+        		  divs.html("<p style='color:green;'>값이 일치</p>");
+               	
+           		 }else{
+              		divs.html("<p style='color:red;'>값이 일치하지않습니다.</p>");
+            	}
+        }
+  </script>
 <script type="text/javascript">
 function changeMail(){
 	var f = document.forms[0];
@@ -53,11 +67,11 @@ function inNumber(){
 	   </tr>
 	   <tr>
 	      <td width="200"><p align="right">비밀번호</td>
-	      <td width="400"><input type="password" name="comp_pw"></td>
+	      <td width="400"><input type="password" id="comp_pw" name="comp_pw" onchange="button1_click();"></td>
 	    </tr>
 	    <tr>
 	      <td width="200"><p align="right">비밀번호 확인</td>
-	      <td width="400"><input type="password" name="comp_pw"></td>
+	      <td width="400"><input type="password"  id="comp_pw_re" name="comp_pw_re" onchange="button1_click();"><div id = "pw"></div></td>
 	    </tr>
 	    <tr>
 	       <td width="200"><p align="right">담당자이름</td>
@@ -65,7 +79,7 @@ function inNumber(){
 	    </tr>
 	    <tr>
 	       <td width="200"><p align="right">담당자핸드폰번호</td>
-	       <td width="400"><p><input type="text" name="comp_mhp"></td>
+	       <td width="400"><p><input type="text" name="comp_mhp" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></td>
 	    </tr>
 	    <tr>
 	       <td width="200"><p align="right">담당자 이메일</td>
