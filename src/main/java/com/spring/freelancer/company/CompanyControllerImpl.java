@@ -44,7 +44,8 @@ public class CompanyControllerImpl implements CompanyController {
 	@RequestMapping(value="/comp/addCompany.do" ,method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addCompany(@ModelAttribute("info") CompanyVO companyVO,
             				HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+		String comp_memail = request.getParameter("comp_memail1") + "@" + request.getParameter("comp_memail2");
+		companyVO.setComp_memail(comp_memail);
 		companyService.addCompanyInfo(companyVO);
 		ModelAndView mav = new ModelAndView("redirect:/main.do");
 		return mav;
