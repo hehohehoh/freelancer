@@ -12,14 +12,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>기업 로그인창</title>
 </head>
 <body>
 	<h1>로그인 창</h1>
-	<form >
+	<form>
 	아이디: <input type="text" name="id" />
 	비밀번호: <input type="password" name="pw" />
 	</form>
-	<a href="">회원가입하기</a>
+	<a href="${contextPath}/comp/compForm.do">회원가입하기</a>
 </body>
 </html>
