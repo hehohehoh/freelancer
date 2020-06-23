@@ -44,10 +44,13 @@
     	}
 	</script>
 </head>
+<style>
+	table {margin: auto; border: 1px solid black; border-collapse: collapse;}
+</style>
 <body>
 	<form method="post" action="${contextPath}/free/addFree.do">
 	<h1  class="text_center">프리랜서 등록 창</h1>
-	<table align="center">
+	<table>
 	   <tr>
 	      <td width="200"><p align="right">아이디</td>
 	      <td width="400"><input type="text" name="free_id"></td>

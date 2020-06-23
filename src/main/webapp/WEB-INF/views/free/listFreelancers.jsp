@@ -15,9 +15,13 @@
 <head>
 	<meta charset="UTF-8">
 	<title>회원 정보 출력창</title>
+	<style>
+		table {margin: auto; border: 1px solid black; border-collapse: collapse;}
+		h1 {text-align:center;}
+	</style>
 </head>
 <body>
-	<table border="1"  align="center"  width="80%">
+	<table>
 		<tr align="center"   bgcolor="lightblue">
 			<td><b>아이디</b></td>
 			<td><b>비밀번호</b></td>
@@ -71,7 +75,7 @@
 		</tr>
 		</c:forEach>   
 	</table>
-	<a  href="${contextPath}/free/freeForm.do"><h1 style="text-align:center">회원가입</h1></a>
+	<h1><a href="${contextPath}/free/form.do">회원가입</a></h1>
 	
 </body>
 </html>
