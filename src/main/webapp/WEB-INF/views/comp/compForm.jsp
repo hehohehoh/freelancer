@@ -117,7 +117,6 @@
 			}
 		}
 	}
-
   
 	function changeMail(){
 		var f = document.forms[0];
@@ -152,17 +151,15 @@
 	var text2 = f.comp_memail2.value;
 	var result = text1 + "@" + text2;
 </script>
-<style>
-   table {margin: auto; border: 1px solid black; border-collapse: collapse;}
-</style>
+
 </head>
 <body>
 	<form name="frmComp">
 	<h1 align="center">기업 정보 등록창</h1>
-	<table>
+	<table  align="center">
 	   <tr>
 	      <td width="200"><p align="right">아이디</td>
-	      <td width="400"><input type="text" name="comp_id" id="comp_id" oninput="checkId()" onKeyup="this.value=this.value.replace(/[0-9]|[^\a-z]/gi,'');"/>
+	      <td width="400"><input type="text" name="comp_id" id="comp_id" oninput="checkId()" onKeyup="this.value=this.value.replace(/[!-/]|[^\a-z\0-9]/gi,'');"/>
 		  <br><span id="chkMsg" style="font-size:70%;"></span>
 		  </td> 
 	   </tr>
