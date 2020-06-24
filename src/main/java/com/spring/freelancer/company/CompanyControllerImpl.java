@@ -1,5 +1,8 @@
 package com.spring.freelancer.company;
 
+import java.util.List;
+
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -8,9 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
 
 
 
@@ -21,18 +25,7 @@ public class CompanyControllerImpl implements CompanyController {
 	private CompanyService companyService;
 	@Autowired
 	CompanyVO companyVO ;
-	/*
-	@RequestMapping(value = "/comp/login.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public String login(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		
-		String goPage = (String)request.getAttribute("viewName");
-		
-		return goPage;
-	}
-	*/
-	
-	
+
 	@RequestMapping(value = "/comp/login.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView login(HttpServletRequest request,
 									HttpServletResponse response) throws Exception {
@@ -40,17 +33,6 @@ public class CompanyControllerImpl implements CompanyController {
 		ModelAndView mav = new ModelAndView(viewName);
 		return mav;
 	}
-	
-	/*
-	@RequestMapping(value = "/comp/compForm.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public String compForm(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		
-		String goPage = (String)request.getAttribute("viewName");
-		
-		return goPage;
-	}
-	*/
 	
 	@RequestMapping(value = "/comp/compForm.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView compForm(HttpServletRequest request,
@@ -79,8 +61,25 @@ public class CompanyControllerImpl implements CompanyController {
 		int result = companyService.compIdCheck(companyVO.getComp_id());
 		return String.valueOf(result);
 	}
-
 	
+	@Override
+	@RequestMapping(value="/admin/compAppro.do" ,method = RequestMethod.GET)
+	public ModelAndView compApproList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		List<CompanyVO> compApproList = companyService.listCompAppro();
+		ModelAndView mav = new ModelAndView(viewName);
+		mav.addObject("compApproList", compApproList);
+		return mav;
+	}
+
+	@Override
+	@RequestMapping(value="/admin/appro.do" ,method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView compApprove(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String comp_id = request.getParameter("comp_id");
+		companyService.updateComp(comp_id);
+		ModelAndView mav = new ModelAndView("redirect:/admin/compAppro.do");
+		return mav;
+	}
 
 	
 }

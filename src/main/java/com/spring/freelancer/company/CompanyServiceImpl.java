@@ -3,6 +3,9 @@ package com.spring.freelancer.company;
 
 
 
+import java.util.List;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -26,6 +29,16 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public int compIdCheck(String comp_id) throws Exception {
 		return compMapper.checkOverId(comp_id);
+	}
+	
+	@Override
+	public List<CompanyVO> listCompAppro() throws Exception {
+		return compMapper.compApproList();
+	}
+	
+	@Override
+	public void updateComp(String comp_id) throws Exception {
+		compMapper.compAppro(comp_id);
 	}
 
 }

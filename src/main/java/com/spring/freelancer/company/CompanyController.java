@@ -20,7 +20,10 @@ public interface CompanyController {
 	public ModelAndView addCompany(@ModelAttribute("info") CompanyVO companyVO,
 			HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
-	
 	public @ResponseBody String idDuplChk(@ModelAttribute("vo") CompanyVO companyVO , Model model) throws Exception;
+	
+	public ModelAndView compApproList(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	public ModelAndView compApprove(HttpServletRequest request, HttpServletResponse response) throws Exception;
 			
 }
