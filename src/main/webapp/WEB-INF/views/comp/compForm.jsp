@@ -58,7 +58,6 @@
 			frmComp.action = "${contextPath}/comp/addCompany.do";
 			frmComp.submit();
 		}
-		
 	}
 	
 	
@@ -90,31 +89,22 @@
 	     });
 	};
 	
-	
+
 	function checkPwd(){
 		var f1 = document.forms[0];
 		var pw1 = f1.comp_pw.value;
 		var pw2 = f1.comp_pw_re.value;
-		if(pw1!=pw2){
-			if(pw2==""){
-				document.getElementById('checkPwd').innerHTML = " ";
-			}else if(pw2.length < 8 || pw2.length > 16){
-				document.getElementById('checkPwd').style.color ="black";
-				document.getElementById('checkPwd').innerHTML = "8~16자리로 입력해주세요";
-			}else{
-				document.getElementById('checkPwd').style.color = "red";
-				document.getElementById('checkPwd').innerHTML = "동일한 비밀번호를 입력하세요.";
-			}
+		if(pw2==""){
+			document.getElementById('checkPwd').innerHTML = " ";
+		}else if(pw2.length < 8 || pw2.length > 16){
+			document.getElementById('checkPwd').style.color ="black";
+			document.getElementById('checkPwd').innerHTML = "8~16자리로 입력해주세요";
+		}else if(pw1!=pw2){
+			document.getElementById('checkPwd').style.color = "red";
+			document.getElementById('checkPwd').innerHTML = "동일한 비밀번호를 입력하세요.";
 		}else{
-			if(pw2==""){
-				document.getElementById('checkPwd').innerHTML = " ";
-			}else if(pw2.length < 8 || pw2.length > 16){
-				document.getElementById('checkPwd').style.color ="black";
-				document.getElementById('checkPwd').innerHTML = "8~16자리로 입력해주세요";
-			}else{
-				document.getElementById('checkPwd').style.color ="green";
-				document.getElementById('checkPwd').innerHTML = "비밀번호가  동일합니다.";
-			}
+			document.getElementById('checkPwd').style.color ="green";
+			document.getElementById('checkPwd').innerHTML = "비밀번호가  동일합니다.";
 		}
 	}
   
@@ -148,12 +138,14 @@
 	
 
 </script>
-
+<style>
+   table {margin: auto; border: 1px solid black; border-collapse: collapse;}
+</style>
 </head>
 <body>
 	<form name="frmComp">
 	<h1 align="center">기업 정보 등록창</h1>
-	<table  align="center">
+	<table>
 	   <tr>
 	      <td width="200"><p align="right">아이디</td>
 	      <td width="400"><input type="text" name="comp_id" id="comp_id" oninput="checkId()" onKeyup="this.value=this.value.replace(/[!-/]|[^\a-z\0-9]/gi,'');"/>
