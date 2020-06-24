@@ -16,13 +16,7 @@
 		<result property="comp_name" column="comp_name" />
 		<result property="comp_stop" column="comp_stop" />
 		<result property="comp_joindate" column="comp_joindate" />
-		
-		<result property="comp_cnum" column="comp_cnum" />
-		<result property="comp_pname" column="comp_pname" />
-		<result property="comp_pwork" column="comp_pwork" />
-		<result property="comp_startdate" column="comp_startdate" />
-		<result property="comp_finishdate" column="comp_finishdate" />  
-	</resultMap> 
+	</resultMap>
 	
 	<insert id="insertCompInfo"  parameterType="companyVO">
 		insert into comp_info
@@ -33,10 +27,16 @@
 		select count(*) from comp_info where comp_id = #{comp_id}
 	</select>
 	
-	<select id="compApproList" resultType="companyVO">
+	<select id="compApproList" resultMap="compResult">
 		select *
 		from comp_info
 		where comp_stop = 3
+		order by comp_joindate
 	</select>
 	
+	<update id="compAppro"  parameterType="companyVO">
+		update comp_info
+		set comp_stop = 0
+		where comp_id = #{comp_id}
+	</update>
 </mapper>
