@@ -146,10 +146,7 @@
 	  	}
 	}
 	
-	
-	var text1 = f.comp_memail1.value;
-	var text2 = f.comp_memail2.value;
-	var result = text1 + "@" + text2;
+
 </script>
 
 </head>
