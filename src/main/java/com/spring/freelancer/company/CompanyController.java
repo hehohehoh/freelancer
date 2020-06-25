@@ -26,4 +26,9 @@ public interface CompanyController {
 	
 	public ModelAndView compApprove(HttpServletRequest request, HttpServletResponse response) throws Exception;
 			
+	public ModelAndView findid(HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+	public ModelAndView findiddo(CompanyVO companyVO, HttpServletRequest request, HttpServletResponse response)
+			throws Exception;
+
 }
