@@ -21,5 +21,6 @@
 	비밀번호: <input type="password" name="pw" />
 	</form>
 	<a href="${contextPath}/comp/compForm.do">회원가입하기</a>
+	<a href="${contextPath}/comp/findid.do">아이디 찾기</a>
 </body>
 </html>
