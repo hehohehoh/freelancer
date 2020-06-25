@@ -80,6 +80,32 @@ public class CompanyControllerImpl implements CompanyController {
 		ModelAndView mav = new ModelAndView("redirect:/admin/compAppro.do");
 		return mav;
 	}
-
+	
+	
+	@Override
+	@RequestMapping(value = "/comp/findid.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView findid(HttpServletRequest request,
+									HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView(viewName);
+		return mav;
+	}
+	
+	@Override
+	@RequestMapping(value="/comp/findiddo.do" ,method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView findiddo(@ModelAttribute("info") CompanyVO companyVO,
+            				HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String comp_memail = request.getParameter("comp_memail1") + "@" + request.getParameter("comp_memail2");
+		companyVO.setComp_memail(comp_memail);
+		String id = companyService.findid(companyVO);
+		ModelAndView mav = new ModelAndView();
+		if(id==""||id==null) {
+			mav.setViewName("/comp/resultidnull");
+		}else{
+			mav.setViewName("/comp/resultidnotnull");
+			mav.addObject("id",id);
+		}
+		return mav;
+	}
 	
 }
