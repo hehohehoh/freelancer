@@ -10,4 +10,6 @@ public interface CompanyService {
 	public List<CompanyVO> listCompAppro() throws Exception;
 	
 	public void updateComp(String comp_id) throws Exception;
+	
+	public String findid(CompanyVO companyVO) throws Exception;
 }
