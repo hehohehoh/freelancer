@@ -16,4 +16,6 @@ public interface CompMapper {
 	List<CompanyVO> compApproList() throws Exception;
 	
 	void compAppro(String comp_id) throws Exception;
+	
+	String resultid(CompanyVO companyVO) throws Exception;
 }
