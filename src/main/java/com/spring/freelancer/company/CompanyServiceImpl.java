@@ -41,4 +41,9 @@ public class CompanyServiceImpl implements CompanyService {
 		compMapper.compAppro(comp_id);
 	}
 
+	
+	@Override
+	public String findid(CompanyVO companyVO) throws Exception {
+		return compMapper.resultid(companyVO);
+	}
 }
