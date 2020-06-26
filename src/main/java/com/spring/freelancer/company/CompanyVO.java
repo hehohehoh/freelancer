@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 
 import lombok.Data;
 
+
+
 @Data
 @Component("companyVO")
 public class CompanyVO {
