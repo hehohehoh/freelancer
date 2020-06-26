@@ -9,13 +9,18 @@ import com.spring.freelancer.company.CompanyVO;
 @Mapper()
 public interface CompMapper {
 	
+	//기업 가입
 	void insertCompInfo(CompanyVO companyVO) throws Exception;
 	
+	//기업 아이디 중복체크
 	int checkOverId(String comp_id) throws Exception;
 	
+	//기업 승인할 리스트
 	List<CompanyVO> compApproList() throws Exception;
 	
+	//기업 승인
 	void compAppro(String comp_id) throws Exception;
 	
-	String resultid(CompanyVO companyVO) throws Exception;
+	//기업 로그인
+	CompanyVO loginById(CompanyVO companyVO) throws Exception;
 }
