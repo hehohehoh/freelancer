@@ -16,17 +16,26 @@
 		<result property="comp_name" column="comp_name" />
 		<result property="comp_stop" column="comp_stop" />
 		<result property="comp_joindate" column="comp_joindate" />
+		
+		<result property="comp_cnum" column="comp_cnum" />
+      	<result property="comp_pname" column="comp_pname" />
+     	<result property="comp_pwork" column="comp_pwork" />
+      	<result property="comp_startdate" column="comp_startdate" />
+      	<result property="comp_finishdate" column="comp_finishdate" />  
 	</resultMap>
 	
+	<!-- 기업 가입 정보 insert -->
 	<insert id="insertCompInfo"  parameterType="companyVO">
 		insert into comp_info
 		values(#{comp_id}, #{comp_pw}, #{comp_mname}, #{comp_mhp}, #{comp_memail}, #{comp_bnum}, default, #{comp_name}, 3, default)     
 	</insert>
 	
+	<!-- 아이디 중복체크 -->
 	<select id="checkOverId" resultType="int"  parameterType="String" >
 		select count(*) from comp_info where comp_id = #{comp_id}
 	</select>
 	
+	<!-- 기업 가입 승인할 리스트 -->
 	<select id="compApproList" resultMap="compResult">
 		select *
 		from comp_info
@@ -34,15 +43,18 @@
 		order by comp_joindate
 	</select>
 	
+	<!-- 기업 가입  승인 -->
 	<update id="compAppro"  parameterType="companyVO">
 		update comp_info
 		set comp_stop = 0
 		where comp_id = #{comp_id}
 	</update>
 	
-	<select id="resultid" resultType="String" parameterType="companyVO">
-		select comp_id
-		from comp_info
-		where comp_mname = #{comp_mname} and comp_mhp = #{comp_mhp} and comp_memail = #{comp_memail} and comp_bnum = #{comp_bnum}  
-	</select>
+	<!-- 기업 로그인 -->
+	<select id="loginById" resultMap="compResult" parameterType="companyVO" >
+		select * from comp_info
+		where comp_id=#{comp_id} and comp_pw=#{comp_pw}
+    </select>
+    
+    
 </mapper>
