@@ -8,17 +8,27 @@
 <%
   request.setCharacterEncoding("UTF-8");
 %>  
-
+<c:set var="result" value="${param.result}" />
 <html>
 <head>
 	<meta charset="UTF-8">
 	<title>메인 페이지</title>
+	
+	<c:choose>
+   		<c:when test="${result=='addcomp'}">
+     		<script>
+       			window.onload=function(){
+         			alert("회원가입 승인처리가 24시간 이내로 처리 됩니다!!");
+       			}
+     		</script>
+   		</c:when>
+	</c:choose>  
 </head>
 <body>
 	<h3>메인 페이지</h3>
 	<a href="${contextPath}/free/login.do">프리랜서</a>
 	<br>
 	<hr>
-	<a href="${contextPath}/comp/login.do">기업</a>	
+	<a href="${contextPath}/comp/loginForm.do">기업</a>	
 </body>
 </html>
