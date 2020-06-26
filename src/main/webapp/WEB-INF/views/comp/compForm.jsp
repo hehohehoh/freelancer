@@ -8,13 +8,14 @@
 
 <%
    request.setCharacterEncoding("UTF-8");
-	
 %> 
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>기업 회원가입</title>
+
 	<!-- 아이디중복체크 -->
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script type="text/javascript">
@@ -136,8 +137,9 @@
 	  	}
 	}
 	
-
 </script>
+
+
 <style>
    table {margin: auto; border: 1px solid black; border-collapse: collapse;}
 </style>
@@ -200,5 +202,6 @@
 	    </tr>
 	</table>
 	</form>
+	
 </body>
 </html>
