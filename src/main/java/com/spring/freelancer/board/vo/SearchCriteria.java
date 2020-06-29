@@ -1,5 +1,7 @@
 package com.spring.freelancer.board.vo;
 
+
+//Criteria를 extends했기때문에 SearchCriteria로 Criteria기능을 사용할 수 있음.
 public class SearchCriteria extends Criteria{
 	
 	private String searchType = "";

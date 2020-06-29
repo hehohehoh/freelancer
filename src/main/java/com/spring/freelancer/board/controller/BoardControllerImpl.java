@@ -28,13 +28,14 @@ public class BoardControllerImpl implements BoardController{
 	@Override
 	@RequestMapping(value ="/board/list", method = RequestMethod.GET)
 	public String list(Model model, @ModelAttribute("scri") SearchCriteria scri) throws Exception {
+									//페이징 처리하는 Criteria를 상속받아 페이징 기능을 사용하고, SearchCriteria클래스의 검색 기능 활용
 		logger.info("list");
 		
 		model.addAttribute("list", service.list(scri));
 		
 		PageMaker pageMaker = new PageMaker();
-		pageMaker.setCri(scri);
-		pageMaker.setTotalCount(service.listCount(scri));
+		pageMaker.setCri(scri);		// page와 perPageNum을 셋팅해준다.
+		pageMaker.setTotalCount(service.listCount(scri));	//총 게시글의 수를 셋팅.
 		
 		model.addAttribute("pageMaker", pageMaker);
 		
