@@ -51,5 +51,20 @@ public class CompanyServiceImpl implements CompanyService {
 		System.out.println("service: "+companyVO);
 		return compMapper.loginById(companyVO);
 	}
+	
+	@Override
+	   public String findid(CompanyVO companyVO) throws Exception {
+	      return compMapper.resultid(companyVO);
+	   }
+	   
+	   @Override
+	   public String findpw(CompanyVO companyVO) throws Exception {
+	      return compMapper.resultpw(companyVO);
+	   }
+	   
+	   @Override
+	   public void pwreset(CompanyVO companyVO) throws Exception {
+	      compMapper.pwreset(companyVO);
+	   }
 
 }

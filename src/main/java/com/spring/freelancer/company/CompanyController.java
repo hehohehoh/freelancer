@@ -29,4 +29,14 @@ public interface CompanyController {
 	public ModelAndView login(@ModelAttribute("company") CompanyVO company,
             				HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
+	public ModelAndView findid(HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+	public ModelAndView findiddo(CompanyVO companyVO, HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+	public ModelAndView findpw(HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+	ModelAndView findpwdo(CompanyVO companyVO, HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+	ModelAndView pwreset(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
 }

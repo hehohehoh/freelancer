@@ -134,6 +134,78 @@ public class CompanyControllerImpl implements CompanyController {
 	      ModelAndView mav = new ModelAndView();
 	      mav.setViewName(viewName);
 	      return mav;
+	}
+	
+	@Override
+	@RequestMapping(value = "/comp/findid.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView findid(HttpServletRequest request,
+	                           HttpServletResponse response) throws Exception {
+	   String viewName = (String) request.getAttribute("viewName");
+	   ModelAndView mav = new ModelAndView(viewName);
+	   return mav;
+	}
+	   
+	@Override
+	@RequestMapping(value="/comp/findiddo.do" ,method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView findiddo(@ModelAttribute("info") CompanyVO companyVO,
+	                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+	   String comp_memail = request.getParameter("comp_memail1") + "@" + request.getParameter("comp_memail2");
+	   companyVO.setComp_memail(comp_memail);
+	   String id = companyService.findid(companyVO);
+	   ModelAndView mav = new ModelAndView();
+	   if(id==""||id==null) {
+	      mav.setViewName("/comp/resultidnull");
+	   }else{
+	      mav.setViewName("/comp/resultidnotnull");
+	      mav.addObject("id",id);
+	   }
+	      return mav;
+	}
+	   
+	@Override
+	@RequestMapping(value = "/comp/findpw.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView findpw(HttpServletRequest request,
+	                           HttpServletResponse response) throws Exception {
+	   String viewName = (String) request.getAttribute("viewName");
+	   ModelAndView mav = new ModelAndView(viewName);
+	   return mav;
+	}
+	   
+	@Override
+	@RequestMapping(value="/comp/findpwdo.do" ,method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView findpwdo(@ModelAttribute("info") CompanyVO companyVO,
+	                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String comp_memail = request.getParameter("comp_memail1") + "@" + request.getParameter("comp_memail2");
+	    companyVO.setComp_memail(comp_memail);
+	    String id = companyService.findpw(companyVO);
+	    ModelAndView mav = new ModelAndView();
+	    if(id==""||id==null) {
+	         mav.setViewName("/comp/resultpwnull");
+	    }else{
+	         mav.setViewName("/comp/resultpwnotnull");
+	         mav.addObject("id",id);
+	    }
+	      return mav;
+	}
+	   
+	   
+	   
+	   @Override
+	   @RequestMapping(value="/comp/pwreset.do" ,method = {RequestMethod.GET,RequestMethod.POST})
+	   public ModelAndView pwreset(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	      String comp_id = request.getParameter("comp_id");
+	      String comp_pw = request.getParameter("comp_pw");
+	      
+	   // 비밀번호 암호화 (sha256
+		String encryPassword = Sha256.encrypt(comp_pw);
+	      
+	      companyVO.setComp_id(comp_id);
+	      companyVO.setComp_pw(encryPassword);
+	      companyService.pwreset(companyVO);
+	      ModelAndView mav = new ModelAndView();
+	      mav.setViewName("/comp/pwreset");
+	      mav.addObject("id",companyVO.getComp_id());
+	      return mav;
 	   }
 
 	

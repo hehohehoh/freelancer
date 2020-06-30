@@ -17,4 +17,10 @@ public interface CompanyService {
 	
 	//기업 로그인
 	public CompanyVO login(CompanyVO companyVO) throws Exception;
+	
+	public String findid(CompanyVO companyVO) throws Exception;
+	   
+	String findpw(CompanyVO companyVO) throws Exception;
+	   
+	void pwreset(CompanyVO companyVO) throws Exception;
 }
