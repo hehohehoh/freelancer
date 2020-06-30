@@ -56,5 +56,23 @@
 		where comp_id=#{comp_id} and comp_pw=#{comp_pw}
     </select>
     
+    <select id="resultid" resultType="String" parameterType="companyVO">
+      select comp_id
+      from comp_info
+      where comp_mname = #{comp_mname} and comp_mhp = #{comp_mhp} and comp_memail = #{comp_memail} and comp_bnum = #{comp_bnum}  
+   </select>
+   
+   <select id="resultpw" resultType="String" parameterType="companyVO">
+      select comp_id
+      from comp_info
+      where comp_id = #{comp_id} and comp_mname = #{comp_mname} and comp_mhp = #{comp_mhp} and comp_memail = #{comp_memail} and comp_bnum = #{comp_bnum}  
+   </select>
+   
+   <update id="pwreset" parameterType="companyVO">
+      update comp_info
+      set comp_pw = #{comp_pw}
+      where comp_id = #{comp_id}
+   </update>
+    
     
 </mapper>
