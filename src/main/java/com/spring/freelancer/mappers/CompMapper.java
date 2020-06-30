@@ -23,4 +23,10 @@ public interface CompMapper {
 	
 	//기업 로그인
 	CompanyVO loginById(CompanyVO companyVO) throws Exception;
+	
+	String resultid(CompanyVO companyVO) throws Exception;
+	   
+	String resultpw(CompanyVO companyVO) throws Exception;
+	   
+	void pwreset(CompanyVO companyVO) throws Exception;
 }
