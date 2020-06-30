@@ -23,6 +23,7 @@
 		<result property="free_intro" column="free_intro" />
 		<result property="free_file" column="free_file" />
 		<result property="free_addr" column="free_addr" />
+		<result property="free_picture_thumb" column="free_picture_thumb" />
 	</resultMap>
 	
 	<select id="selectAllFreelancersList" resultMap="freeResult">
@@ -34,10 +35,31 @@
 		INSERT INTO	fr.free_info
 		VALUES(#{free_id}, #{free_pw}, #{free_firstName}, #{free_lastName},
 			 #{free_hp}, #{free_bir}, #{free_gender}, #{free_email}, default, 
-			 null, #{free_career}, default, default, null, #{free_level}, null, null, #{free_addr})
+			 null, #{free_career}, default, default, null, #{free_level}, null, null, #{free_addr}, null)
 	</insert>
 
+	<select id="checkOverId" resultType="int" parameterType="String">
+		select count(*) from free_info where free_id = #{free_id}
+	</select>
+	
+	<select id="loginById" resultMap="freeResult" parameterType="freeVO">
+		select * from free_info where
+		free_id = #{free_id} and free_pw = #{free_pw}
+	</select>
 
+	<update id="updateFree" parameterType="freeVO">
+		update free_info set
+		free_pay = #{free_pay}, 
+		free_intro = #{free_intro}, 
+		free_picture = #{free_picture}, 
+		free_picture_thumb = #{free_picture_thumb} 
+		where free_id = #{free_id}
+	</update>
+	
+	<insert id="addCareer" parameterType="freeCareerVO">
+		insert into free_career values
+		 (#{free_id}, #{free_cnum}, #{free_startdate}, #{free_finishdate}, #{free_pname}, #{free_pwork}, #{free_company})
+	</insert>
 	
 
 

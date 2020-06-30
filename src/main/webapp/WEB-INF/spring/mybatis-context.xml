@@ -6,43 +6,57 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
 	<aop:aspectj-autoproxy />
 	<bean id="propertyPlaceholderConfigurer"
-			class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
-	<property name="locations">
-		<value>/WEB-INF/config/jdbc/jdbc.properties</value>
-	</property>
+		class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+		<property name="locations">
+			<value>/WEB-INF/config/jdbc/jdbc.properties</value>
+		</property>
 	</bean>
-	
+
 	<bean id="dataSource"
 		class="org.apache.ibatis.datasource.pooled.PooledDataSource">
-		<property name="driver"	value="${jdbc.driverClassName}" />
+		<property name="driver" value="${jdbc.driverClassName}" />
 		<property name="url" value="${jdbc.url}" />
 		<property name="username" value="${jdbc.username}" />
 		<property name="password" value="${jdbc.password}" />
 	</bean>
-	
-	<bean id ="sqlSessionFactory" class= "org.mybatis.spring.SqlSessionFactoryBean" >
-	  <property name="dataSource" ref="dataSource" />
-	  <property name="configLocation" value="classpath:mybatis/models/modelConfig.xml"  />
-	  <property name="mapperLocations" value="classpath:mybatis/mappers/*.xml" />
-	</bean >
-	
-	<bean id ="transactionManager"
-	    class= "org.springframework.jdbc.datasource.DataSourceTransactionManager" >
-	    <property name ="dataSource" ref= "dataSource"></property >
-	</bean >
-	
-	<bean id ="sqlSession"
-	    class= "org.mybatis.spring.SqlSessionTemplate" >
-	    <constructor-arg ref= "sqlSessionFactory"></constructor-arg >
-	</bean >
 
-	<bean id="baseMapper" class="org.mybatis.spring.mapper.MapperFactoryBean" abstract="true" lazy-init="true">
-		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation"
+			value="classpath:mybatis/models/modelConfig.xml" />
+		<property name="mapperLocations"
+			value="classpath:mybatis/mappers/*.xml" />
 	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+
+	<bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory"></constructor-arg>
+	</bean>
+
+	 <bean id="baseMapper" class="org.mybatis.spring.mapper.MapperFactoryBean" abstract="true" lazy-init="true">
+     <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+   </bean>
    
    
 	<bean id="freeMapper" parent="baseMapper">
 		<property name="mapperInterface" value="com.spring.freelancer.mappers.FreeMapper" />
 	</bean>
+	<bean id="boardMapper" parent="baseMapper">
+		<property name="mapperInterface" value="com.spring.freelancer.mappers.BoardMapper" />
+	</bean>
+	<bean id="replyMapper" parent="baseMapper">
+		<property name="mapperInterface" value="com.spring.freelancer.mappers.ReplyMapper" />
+	</bean>
+	<bean id="compMapper" parent="baseMapper">
+		<property name="mapperInterface" value="com.spring.freelancer.mappers.CompMapper" />
+	</bean>
+
 
 </beans>

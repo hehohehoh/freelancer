@@ -71,7 +71,7 @@
 	        success:function(data){
 	        	if($.trim(data)==0){
 	        		if(comp_id==""){
-	        			$('#chkMsg').html(" ");
+	        			$('#chkMsg').html("");	        			
 	        		}else if(comp_id.length < 6 || comp_id.length > 12){
 	        			$('#chkMsg').html("6~12자리로 입력해주세요");
 	        			$('#chkMsg').css("color","black");

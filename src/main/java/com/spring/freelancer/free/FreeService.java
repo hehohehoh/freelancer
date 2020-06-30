@@ -8,6 +8,13 @@ public interface FreeService {
 
 	public List<FreeVO> listFreelancers() throws Exception;
 
-	int addFree(FreeVO free) throws DataAccessException;
+	public void addFree(FreeVO free) throws DataAccessException;
+	
+	public int freeIdCheck(String free_id) throws Exception;
+	
+	public FreeVO loginById(FreeVO freeVO) throws Exception;
+	
+	public void updateFree(FreeVO freeVO) throws Exception;
 
+	public void addCareer(FreeCareerVO careerVO) throws Exception;
 }

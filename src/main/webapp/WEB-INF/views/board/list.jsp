@@ -7,7 +7,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <html>
 <head>
-		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 	<title>게시판</title>
 	<style type="text/css">
@@ -17,7 +17,7 @@
 <body>
 	<div id="root">
 		<header>
-			<h1>게시판</h1>
+			<h1>${free_id }으로 로그인 되었습니다</h1>
 		</header>
 		<hr />
 
@@ -40,7 +40,7 @@
 						<tr>
 
 							<td><c:out value="${list.bno}" /></td>
-							<td><a href="${contextPath}/board/readView?bno=${list.bno}"><c:out value="${list.title}" /></a>
+							<td><a href="${contextPath}/board/readView?bno=${list.bno}&page=${scri.page}&perPageNum=${scri.perPageNum}&searchType=${scri.searchType}&keyword=${scri.keyword}"><c:out value="${list.title}" /></a>
 							</td>
 							<td><c:out value="${list.writer}" /></td>
 							<td><fmt:formatDate value="${list.regdate}"
@@ -48,6 +48,8 @@
 						</tr>
 					</c:forEach>
 				</table>
+				
+	<!--  검색 관련 버튼들 -->
 <div class="search">
     <select name="searchType">
       <option value="n"<c:out value="${scri.searchType == null ? 'selected' : ''}"/>>-----</option>
@@ -72,18 +74,25 @@
   
   
   
-  	
+  	<!-- 페이징 관련 버튼들 -->
 	<div>
 		<ul>
-			 <c:if test="${pageMaker.prev}">
+			 <c:if test="${pageMaker.prev}">	
+			 	<!-- 이전 버튼의 생성 여부를 확인하여 버튼을 보여준다. -->
+			 	
 			 	<li><a href="list${pageMaker.makeSearch(pageMaker.startPage - 1)}">이전</a></li>
-			 </c:if> 
+			 </c:if> <!-- 현재 페이지가 어디인지 알기 위해 추가 -->
 			
 			 <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx" >
+			 		<!-- 페이지의 시작 번호와 끝 번호를 이용해 페이지 버튼들을 뿌려준다. -->
+			 		
+			 		
 			 	<li><a href="list${pageMaker.makeSearch(idx)}">${idx}</a></li>
 			 </c:forEach>
 			
 			 <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+			 		<!-- 다음 버튼의 생성 여부를 확인하여 버튼을 보여준다. -->
+			 		
 				    	<li><a href="list${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a></li>
 				    </c:if> 
 				  </ul>

@@ -26,11 +26,30 @@ public class FreeServiceImpl implements FreeService {
 	}
 
 	@Override
-	public int addFree(FreeVO free) throws DataAccessException {
+	public void addFree(FreeVO free) throws DataAccessException {
 		
-		return freeMapper.insertFree(free);
+		freeMapper.insertFree(free);
 	}
 	
+	@Override
+	public int freeIdCheck(String free_id) throws Exception{
+		
+		return freeMapper.checkOverId(free_id);
+	}
 	
+	@Override
+	public FreeVO loginById(FreeVO freeVO) throws Exception{
+		return freeMapper.loginById(freeVO);
+	}
+	
+	@Override
+	public void updateFree(FreeVO freeVO) throws Exception{
+		freeMapper.updateFree(freeVO);
+	}
+	
+	@Override
+	public void addCareer(FreeCareerVO careerVO) throws Exception{
+		freeMapper.addCareer(careerVO);
+	}
 
 }

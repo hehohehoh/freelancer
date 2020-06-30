@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>아이디찾기 결과창1</title>
+<title>비밀번호 재설정 완료창</title>
 <script>
 function MovePage() {
 	//window.opener.top.location.href="login.do"
@@ -24,7 +24,7 @@ function MovePage() {
 		<input type="hidden" value="${id}" id="id"/>
 		<table>	
 			<tr>
-   				<TD>찾으시는 아이디는 ${id}입니다.</TD>		
+   				<TD>${id}님의 비밀번호가 재설정이 완료되었습니다.</TD>		
 			</tr>
 			<tr>
 				<TD><a href="javascript:MovePage();">로그인하러 가기</a></TD>

@@ -29,7 +29,7 @@ public class FreeVO {
 	private String free_intro;
 	private String free_file;
 	private String free_addr;
-
+	private String free_picture_thumb;
 
 	
 }

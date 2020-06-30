@@ -74,6 +74,9 @@
 		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
 		ORDER BY BNO DESC
 </select>
+<!--FROM 절에서 rNum으로 약칭한 row_number()에 번호를 매깁니다. 내림차순이며,
+	이렇게 조회된 FROM 절 데이터로 다시 select 조회를 합니다.
+	조건은 rNum이 1~10까지 그리고 내림차순으로 조회한다는 뜻입니다.  -->
 	
 
  

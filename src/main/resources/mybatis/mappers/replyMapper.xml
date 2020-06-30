@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+<mapper namespace="com.spring.freelancer.mappers.ReplyMapper">
+	<resultMap id="boardResult" type="boardVO">
+		<result property="bno" column="bno" />
+		<result property="rno" column="rno" />
+		<result property="content" column="content" />
+		<result property="writer" column="writer" />
+		<result property="regdate" column="regdate" />
+	</resultMap>
+	
+
+<select id="readReply" resultType="replyVO">
+	SELECT
+			RNO, CONTENT, WRITER, REGDATE
+	FROM MP_REPLY
+	WHERE BNO = #{bno}
+	ORDER BY RNO
+</select>
+
+<insert id="writeReply">
+	INSERT INTO MP_REPLY(
+							BNO
+							,RNO
+							,CONTENT
+							,WRITER
+							)
+							
+					VALUES(	#{bno}
+							, MP_REPLY_SEQ.NEXTVAL
+							, #{content}
+							, #{writer}
+							)
+</insert>
+
+<update id="updateReply" parameterType="ReplyVO">
+	UPDATE MP_REPLY SET CONTENT = #{content}
+	WHERE RNO = #{rno}
+</update>
+
+<delete id="deleteReply" parameterType="ReplyVO">
+	DELETE FROM MP_REPLY
+	WHERE RNO = #{rno}
+</delete>
+
+<select id="selectReply" resultType="ReplyVO" >
+	SELECT 
+			BNO
+			,RNO
+			,CONTENT
+			,WRITER
+			,REGDATE
+	FROM MP_REPLY
+	WHERE RNO = #{rno}	
+</select>
+
+</mapper>

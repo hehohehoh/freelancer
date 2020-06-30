@@ -1,17 +1,31 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE configuration 	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-	
+
 	<settings>
-  		<setting name="mapUnderscoreToCamelCase" value="true"/>
+		<setting name="mapUnderscoreToCamelCase" value="true" />
 	</settings>
 
 	<typeAliases>
-  		<typeAlias type="com.spring.freelancer.free.FreeVO" alias="FreeVO" />
+		
 		<typeAlias type="com.spring.freelancer.company.CompanyVO" alias="companyVO" />
-  	</typeAliases>
+		
+		<typeAlias type="com.spring.freelancer.free.FreeVO" alias="FreeVO" />
+	  <typeAlias type="com.spring.freelancer.free.FreeCareerVO" alias="freeCareerVO" />
+	  <typeAlias type="com.spring.freelancer.free.CareerList" alias="careerList" />		
+	  		
+		
+		<typeAlias type="com.spring.freelancer.board.vo.BoardVO" alias="BoardVO" />
+		<typeAlias type="com.spring.freelancer.board.vo.Criteria" alias="Criteria" />
+		<typeAlias type="com.spring.freelancer.board.vo.PageMaker" alias="PageMaker" />
+		<typeAlias type="com.spring.freelancer.board.vo.SearchCriteria" alias="SearchCriteria" />
+		<typeAlias type="com.spring.freelancer.board.vo.ReplyVO" alias="ReplyVO" />
+		
+	</typeAliases>
+	
+	
+
 </configuration>
-
-

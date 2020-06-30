@@ -14,22 +14,23 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>아이디 찾기</title>
+<title>비밀번호 찾기</title>
+	<!-- 아이디중복    체크 -->
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script type="text/javascript">
 	
 	/* 빈칸 확인 및 값들넘겨주기 */
 	function comp_send(){
-		var frmfindid = document.frmfindid;
-		var comp_mname = frmfindid.comp_mname.value;
-		var comp_mhp = frmfindid.comp_mhp.value;
-		var comp_memail1 = frmfindid.comp_memail1.value;
-		var comp_memail2 = frmfindid.comp_memail2.value;
-		var comp_bnum = frmfindid.comp_bnum.value;
+		var frmComp = document.frmComp;
+		var comp_id = frmComp.comp_id.value;
+		var comp_mname = frmComp.comp_mname.value;
+		var comp_mhp = frmComp.comp_mhp.value;
+		var comp_memail1 = frmComp.comp_memail1.value;
+		var comp_memail2 = frmComp.comp_memail2.value;
+		var comp_bnum = frmComp.comp_bnum.value;
 		
-		
-		if(comp_bnum.length==0 || comp_bnum==""){
-			alert("사업자번호를 입력해주세요");
+		if(comp_id.length==0 || comp_id==""){
+			alert("ID를 입력해주세요");
 		}else if(comp_mname.length==0 || comp_mname==""){
 			alert("담당자 이름을 입력해주세요");
 		}else if(comp_mhp.length==0 || comp_mhp==""){
@@ -38,14 +39,16 @@
 			alert("담당자 이메일를 입력해주세요");
 		}else if(comp_memail2.length==0 || comp_memail2==""){
 			alert("담당자 이메일를 입력해주세요");
+		}else if(comp_bnum.length==0 || comp_bnum==""){
+			alert("사업자번호를 입력해주세요");
 		}else{
-			frmfindid.method = "post";
-			frmfindid.action = "${contextPath}/comp/findiddo.do";
-			frmfindid.submit();
+			frmComp.method = "post";
+			frmComp.action = "${contextPath}/comp/findpwdo.do";
+			frmComp.submit();
 		}
 		
 	}
-	
+
   	/* 이메일 콤보박스 선택별 효과 */
 	function changeMail(){
 		var f = document.forms[0];
@@ -71,16 +74,20 @@
 		
 	
 </script>
-
+<style>
+   table {margin: auto; border: 1px solid black; border-collapse: collapse;}
+</style>
 </head>
 <body>
-	<form name="frmfindid">
-	<h1 align="center">아아디 찾기 창</h1>
-	<table  style='align:center'>
-		<tr>
-	       <td width="200"><p align="right">사업자코드</td>
-	       <td width="400"><p><input type="text" name="comp_bnum" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"> ("-"제외 숫자만 입력하시오)</td>
-	    </tr>
+	<form name="frmComp">
+	<h1 align="center">비밀번호 찾기</h1>
+	<table>
+	   <tr>
+	      <td width="200"><p align="right">아이디</td>
+	      <td width="400"><input type="text" name="comp_id" id="comp_id" oninput="checkId()" onKeyup="this.value=this.value.replace(/[!-/]|[^\a-z\0-9]/gi,'');"/>
+		  <br><span id="chkMsg" style="font-size:70%;"></span>
+		  </td> 
+	   </tr>
 	    <tr>
 	       <td width="200"><p align="right">담당자이름</td>
 	       <td width="400"><p><input type="text" name="comp_mname"></td>
@@ -105,8 +112,10 @@
 	       </select>
 	       </nobr>
 	    </tr>
-
-
+	    <tr>
+	       <td width="200"><p align="right">사업자코드</td>
+	       <td width="400"><p><input type="text" name="comp_bnum" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"> ("-"제외 숫자만 입력하시오)</td>
+	    </tr>
 	    <tr>
 	       <td width="200"><p>&nbsp;</p></td>
 	       <td width="400"><input type="button" value="찾아보기" onclick="comp_send()"><input type="reset" value="다시입력"></td>
