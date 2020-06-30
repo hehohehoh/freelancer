@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
+	
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.spring</groupId>
 	<artifactId>freelancer</artifactId>
 	<name>freelancer</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
-	
-	
 	<properties>
 		<java-version>1.8</java-version>
 		<org.springframework-version>5.2.6.RELEASE</org.springframework-version>
@@ -17,15 +16,80 @@
 		<org.tiles-version>3.0.8</org.tiles-version>
 	</properties>
 	
+
+	
+	<!-- 게시판 시작 06.24 -->
+	<repositories>
+		<repository>
+			<id>oracle</id>
+			<url>http://maven.jahia.org/maven2</url>
+		</repository>
+	</repositories>
+
+		
+	<!-- 게시판 시작 06.24 -->
 	<dependencies>
 	
-	<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
-	<dependency>
+	<!-- 통합  06.30 -->
+		<dependency>
     	<groupId>commons-codec</groupId>
     	<artifactId>commons-codec</artifactId>
     	<version>1.10</version>
-	</dependency>	
+		</dependency>
 	
+		<!-- 통합  06.30 이미지처리-->
+		<dependency>
+	    <groupId>org.imgscalr</groupId>
+	    <artifactId>imgscalr-lib</artifactId>
+	    <version>4.2</version>
+		</dependency>	
+	<!-- 통합 -->
+			<!-- 게시판 06.25 -->
+	<dependency>
+	    <groupId>org.junit.jupiter</groupId>
+	    <artifactId>junit-jupiter-api</artifactId>
+	    <version>5.5.2</version>
+	    <scope>test</scope>
+	</dependency>
+
+			<!-- 게시판 06.25 -->
+			
+		<!-- 게시판 시작 06.24 -->
+	<dependency>
+	    <groupId>javax.validation</groupId>
+	    <artifactId>validation-api</artifactId>
+	    <version>2.0.1.Final</version>
+	</dependency>
+			
+	<dependency>
+	    <groupId>javax.xml.bind</groupId>
+	    <artifactId>jaxb-api</artifactId>
+	    <version>2.3.0</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-test</artifactId>
+	    <version>5.2.6.RELEASE</version>
+	    <scope>test</scope>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-log4j2</artifactId>
+	    <version>2.1.1.RELEASE</version>
+	</dependency>
+		
+		<!-- 게시판 시작 06.24 -->
+
+	
+	
+	<dependency>
+	    <groupId>org.projectlombok</groupId>
+	    <artifactId>lombok</artifactId>
+	    <version>1.18.8</version>
+	    <scope>provided</scope>
+	</dependency>
+		
 		<dependency>
     	<groupId>com.fasterxml.jackson.core</groupId>
     	<artifactId>jackson-databind</artifactId>
@@ -230,6 +294,7 @@
 			<scope>test</scope>
 		</dependency>        
 	</dependencies>
+	
     <build>
         <plugins>
             <plugin>
