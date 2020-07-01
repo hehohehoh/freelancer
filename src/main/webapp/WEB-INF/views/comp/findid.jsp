@@ -16,8 +16,19 @@
 <meta charset="UTF-8">
 <title>아이디 찾기</title>
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<script type="text/javascript">
 	
+	
+	<c:choose>
+		<c:when test="${result=='findidFailed'}">
+ 		<script>
+   			window.onload=function(){
+   				alert("찾는 아이디가 없습니다.");
+   			}
+ 		</script>
+		</c:when>
+	</c:choose>  
+	<script type="text/javascript">
+		
 	/* 빈칸 확인 및 값들넘겨주기 */
 	function comp_send(){
 		var frmfindid = document.frmfindid;
@@ -75,7 +86,7 @@
 </head>
 <body>
 	<form name="frmfindid">
-	<h1 align="center">아아디 찾기 창</h1>
+	<h1 align="center">아이디 찾기 창</h1>
 	<table  style='align:center'>
 		<tr>
 	       <td width="200"><p align="right">사업자코드</td>
@@ -87,7 +98,7 @@
 	    </tr>
 	    <tr>
 	       <td width="200"><p align="right">담당자핸드폰번호</td>
-	       <td width="400"><p><input type="text" name="comp_mhp" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');">("-"제외 숫자만 입력하시오)</td>
+	       <td width="400"><p><input type="text" name="comp_mhp" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"> ("-"제외 숫자만 입력하시오)</td>
 	    </tr>
 	    <tr>
 	       <td width="200"><p align="right">담당자 이메일</td>
