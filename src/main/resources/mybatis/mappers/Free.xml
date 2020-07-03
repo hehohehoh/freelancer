@@ -61,6 +61,21 @@
 		 (#{free_id}, #{free_cnum}, #{free_startdate}, #{free_finishdate}, #{free_pname}, #{free_pwork}, #{free_company})
 	</insert>
 	
-
+	<select id="findid" resultType="String" parameterType="freeVO">
+     	 	select free_id from free_info
+      		where free_firstname = #{free_firstName} and free_lastname = #{free_lastName} and free_hp = #{free_hp} and free_email = #{free_email}
+   	</select>
+   
+   	<select id="findpw" resultType="String" parameterType="freeVO">
+      		select free_id
+      		from free_info
+      		where free_id = #{free_id} and free_firstname = #{free_firstName} and free_lastname = #{free_lastName} and free_hp = #{free_hp} and free_email = #{free_email}
+   	</select>
+		
+	<update id="pwreset" parameterType="freeVO">
+      		update free_info
+      		set free_pw = #{free_pw}
+      		where free_id = #{free_id}
+   	</update>
 
 </mapper>
