@@ -23,6 +23,12 @@ public interface FreeMapper {
 
 	void addCareer(FreeCareerVO careerVO) throws DataAccessException;
 	
+	String findid(FreeVO freeVO) throws DataAccessException;
+	
+	String findpw(FreeVO freeVO) throws DataAccessException;
+	
+	void pwreset(FreeVO freeVO) throws DataAccessException;
+	
 	/*
 	 * MemberVO selectMemberById(String id) throws Exception; int
 	 * insertMember(MemberVO memberVO)throws DataAccessException; int
