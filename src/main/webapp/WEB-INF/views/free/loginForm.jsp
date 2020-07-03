@@ -21,6 +21,21 @@
 			}
 		</script>
 </c:if>
+<script>
+        function popupid(){
+            var url = "${contextPath}/free/findid.do";
+            var name = "popup test";
+            var option = "width = 700, height = 500, top = 100, left = 200, location = no"
+            window.open(url, name, option);
+        }
+        
+        function popuppw(){
+            var url = "${contextPath}/free/findpw.do";
+            var name = "popup test2";
+            var option = "width = 700, height = 500, top = 100, left = 200, location = no"
+            window.open(url, name, option);
+        }
+</script>
 </head>
 <body>
 	<c:choose>
@@ -34,12 +49,14 @@
 	</c:choose>
 	
 	<form method="post" action="${contextPath }/free/login.do">
-	아이디: <input type="text" name="free_id" /><br>
+	아이디: <input type="text" name="free_id" id="free_id" /><br>
 	비밀번호: <input type="password" name="free_pw" />
 	<input type="submit" value="로그인" />
 	</form>
 	<br>
 	<a href="${contextPath}/free/form.do">회원가입하기</a>
+	<a href="javascript:popupid()">아이디 찾기</a>
+    	<a href="javascript:popuppw()">비밀번호 찾기</a>
 	<a href="${contextPath}/free/listFreelancers.do">프리랜서 목록 보기</a>
 	
 </body>
