@@ -174,4 +174,79 @@ public class FreeControllerImpl implements FreeController {
 		return mav;
 	}
 	
+	@Override
+	@RequestMapping(value = "/free/findid.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView findid(HttpServletRequest request,
+	                           HttpServletResponse response) throws Exception {
+	   String viewName = (String) request.getAttribute("viewName");
+	   ModelAndView mav = new ModelAndView(viewName);
+	   return mav;
+	}
+	
+	@Override
+	@RequestMapping(value = "/free/findiddo.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView findiddo(@ModelAttribute("info") FreeVO freeVO,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+			String free_email = request.getParameter("free_email1") + "@" + request.getParameter("free_email2");
+			freeVO.setFree_email(free_email);
+			System.out.println(freeVO);
+			String id = freeService.findid(freeVO);
+			ModelAndView mav = new ModelAndView();
+			if(id==""||id==null) {
+				mav.setViewName("/free/findid");
+				mav.addObject("result", "findidFailed");
+			}else{
+				mav.setViewName("/free/findidresult");
+				mav.addObject("id",id);
+			}
+			return mav;
+	}
+	
+	@Override
+	@RequestMapping(value = "/free/findpw.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView findpw(HttpServletRequest request,
+	                           HttpServletResponse response) throws Exception {
+	   String viewName = (String) request.getAttribute("viewName");
+	   ModelAndView mav = new ModelAndView(viewName);
+	   return mav;
+	}
+	
+	@Override
+	@RequestMapping(value = "/free/findpwdo.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView findpwdo(@ModelAttribute("info") FreeVO freeVO,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+					
+			String comp_memail = request.getParameter("free_email1") + "@" + request.getParameter("free_email2");
+			freeVO.setFree_email(comp_memail);
+			System.out.println(freeVO);
+		    String id = freeService.findpw(freeVO);
+		    
+		    ModelAndView mav = new ModelAndView();
+		    if(id==""||id==null) {
+			      mav.setViewName("/free/findpw");
+			      mav.addObject("result", "findpwFailed");
+		    }else{
+		         mav.setViewName("/free/findpwresult");
+		         mav.addObject("id",id);
+		    }
+		      return mav;
+	}
+	
+	   @Override
+	   @RequestMapping(value="/free/pwreset.do" ,method = {RequestMethod.GET,RequestMethod.POST})
+	   public ModelAndView pwreset(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	      String free_id = request.getParameter("free_id");
+	      String free_pw = request.getParameter("free_pw");
+	      
+	      
+	      freeVO.setFree_id(free_id);
+	      freeVO.setFree_pw(free_pw);
+	      System.out.println(freeVO);
+	      freeService.pwreset(freeVO);
+	      ModelAndView mav = new ModelAndView();
+	      mav.setViewName("/free/pwreset");
+	      mav.addObject("id",freeVO.getFree_id());
+	      return mav;
+	   }
+	
 }

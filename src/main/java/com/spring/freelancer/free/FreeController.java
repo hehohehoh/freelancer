@@ -26,5 +26,10 @@ public interface FreeController {
 	public ModelAndView updateDetailInfo(@ModelAttribute("free") FreeVO free,
 			@RequestParam(value = "free_pic", required = false) MultipartFile file,
 			@RequestParam(value = "career_cnt") int career_cnt ) throws Exception;
+	ModelAndView findid(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	ModelAndView findpw(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	ModelAndView findiddo(FreeVO freeVO, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	ModelAndView findpwdo(FreeVO freeVO, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	ModelAndView pwreset(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 }

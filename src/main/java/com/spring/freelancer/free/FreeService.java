@@ -17,4 +17,10 @@ public interface FreeService {
 	public void updateFree(FreeVO freeVO) throws Exception;
 
 	public void addCareer(FreeCareerVO careerVO) throws Exception;
+
+	String findid(FreeVO freeVO) throws Exception;
+
+	String findpw(FreeVO freeVO) throws Exception;
+
+	void pwreset(FreeVO freeVO) throws Exception;
 }

@@ -51,5 +51,20 @@ public class FreeServiceImpl implements FreeService {
 	public void addCareer(FreeCareerVO careerVO) throws Exception{
 		freeMapper.addCareer(careerVO);
 	}
+	
+	@Override
+	public String findid(FreeVO freeVO) throws Exception{
+		return freeMapper.findid(freeVO);
+	}
+	
+	@Override
+	public String findpw(FreeVO freeVO) throws Exception{
+		return freeMapper.findpw(freeVO);
+	}
+	
+	@Override
+	public void pwreset(FreeVO freeVO) throws Exception {
+		freeMapper.pwreset(freeVO);
+	}
 
 }
