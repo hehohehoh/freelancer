@@ -23,4 +23,15 @@ public interface CompanyService {
 	String findpw(CompanyVO companyVO) throws Exception;
 	   
 	void pwreset(CompanyVO companyVO) throws Exception;
+	
+	
+	
+	
+	public void mypage(CompanyVO companyVO) throws Exception;
+	   
+   public List<CompanyVO> career(CompanyVO companyVO) throws Exception;
+
+   public void incareer(CompanyVO companyVO) throws Exception;
+   
+   public void recareer(CompanyVO companyVO) throws Exception;
 }

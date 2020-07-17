@@ -39,4 +39,24 @@ public interface CompanyController {
 
 	ModelAndView pwreset(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
+	
+	
+	public ModelAndView mypagepw(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	   
+   public ModelAndView mypagePwCheck(@ModelAttribute("info") CompanyVO companyVO,
+            HttpServletRequest request, HttpServletResponse response) throws Exception;
+   
+   public ModelAndView mypage(HttpServletRequest request, HttpServletResponse response) throws Exception;
+   
+   public ModelAndView mypageCareer(HttpServletRequest request, HttpServletResponse response) throws Exception;
+   
+   public ModelAndView mypageCareerin(HttpServletRequest request, HttpServletResponse response) throws Exception;
+   
+   public ModelAndView mypageCareerre(HttpServletRequest request, HttpServletResponse response) throws Exception;
+   
+   public ModelAndView mypwreset(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	
+	
+	
 }

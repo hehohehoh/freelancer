@@ -29,4 +29,14 @@ public interface CompMapper {
 	String resultpw(CompanyVO companyVO) throws Exception;
 	   
 	void pwreset(CompanyVO companyVO) throws Exception;
+	
+	
+	void mypageInfo(CompanyVO companyVO) throws Exception;
+	   
+	List<CompanyVO> compCareer(CompanyVO companyVO) throws Exception;
+	   
+	void inCareer(CompanyVO companyVO) throws Exception;
+	   
+	void reCareer(CompanyVO companyVO) throws Exception;	
+	
 }

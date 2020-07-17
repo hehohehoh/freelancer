@@ -1,7 +1,14 @@
 package com.spring.freelancer.board.controller;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.freelancer.board.vo.BoardVO;
@@ -9,15 +16,29 @@ import com.spring.freelancer.board.vo.ReplyVO;
 import com.spring.freelancer.board.vo.SearchCriteria;
 
 public interface BoardController {
-	
-	public void writeView() throws Exception;
-	public String write(BoardVO boarVO) throws Exception;
-	public String list(@RequestParam("free_id") String free_id, Model model, SearchCriteria scri) throws Exception;
-	public String read(BoardVO boardVO, SearchCriteria scri, Model model) throws Exception;
+
+	public String writeView() throws Exception;
+
+	public String write(BoardVO boarVO,MultipartHttpServletRequest mpRequest) throws Exception;
+	public String list( Model model, SearchCriteria scri,HttpServletRequest request) throws Exception;
+
+	public String read(BoardVO boardVO, SearchCriteria scri, Model model ) throws Exception;
 	String updateView(BoardVO boardVO, SearchCriteria scri, Model model) throws Exception;
-	String update(BoardVO boardVO,SearchCriteria scri, RedirectAttributes rttr) throws Exception;
+	String update(BoardVO boardVO,
+			@ModelAttribute("scri") SearchCriteria scri,
+			RedirectAttributes rttr,
+			@RequestParam(value="fileNodel[]") String[] files,
+			@RequestParam(value="fileNameDel[]") String[] fileNames,
+			MultipartHttpServletRequest mpRequest) throws Exception;
 	String delete(BoardVO boardVO,SearchCriteria scri, RedirectAttributes rttr) throws Exception;
 	String replyWrite(ReplyVO vo, SearchCriteria scri, RedirectAttributes rttr) throws Exception;
+
+	void fileDown(Map<String, Object> map, HttpServletResponse response) throws Exception;
+
+	/*
+	 * String notice(Model model, SearchCriteria scri, HttpServletRequest request)
+	 * throws Exception;
+	 */
 	
 
 }

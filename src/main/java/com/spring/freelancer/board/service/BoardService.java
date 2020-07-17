@@ -1,26 +1,36 @@
 package com.spring.freelancer.board.service;
 
 import java.util.List;
+import java.util.Map;
 
-import org.springframework.dao.DataAccessException;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.spring.freelancer.board.vo.BoardVO;
 import com.spring.freelancer.board.vo.SearchCriteria;
 
 public interface BoardService {
-	
-	public void write(BoardVO boardVO) throws DataAccessException;
-
+	//게시글 작성
+	public void write(BoardVO boardVO, MultipartHttpServletRequest mpRequest) throws Exception;
+	//총 게시글 조회
 	public List<BoardVO> list(SearchCriteria scri) throws Exception;
-	
+	//총 게시글 갯수 조회
 	public int listCount(SearchCriteria scri) throws Exception;
-
+	//게시글 상세보기
 	public BoardVO read(int bno) throws Exception;
-	
-	public void update(BoardVO boardVO) throws Exception;
-	
+	//게시글 수정
+	public void update(BoardVO boardVO, 
+			   String[] files,
+			   String[] fileNames,
+			   MultipartHttpServletRequest mpRequest) throws Exception;
+	//게시글 삭제
 	public void delete(int bno) throws Exception;
 	
-	
+	//첨부파일 조회
+	public List<Map<String, Object>> selectFileList(int bno) throws Exception;
+	//첨부파일 다운로드
+	public Map<String, Object> selectFileInfo(Map<String, Object>map) throws Exception;
+	//공지사항
+	public List<BoardVO> notice()throws Exception;
 
+	
 }

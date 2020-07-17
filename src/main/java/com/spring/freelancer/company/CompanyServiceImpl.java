@@ -66,5 +66,28 @@ public class CompanyServiceImpl implements CompanyService {
 	   public void pwreset(CompanyVO companyVO) throws Exception {
 	      compMapper.pwreset(companyVO);
 	   }
+	   
+	   
+	   @Override
+      public void mypage(CompanyVO companyVO) throws Exception {
+        compMapper.mypageInfo(companyVO);
+      }
+      
+      @Override
+      public List<CompanyVO> career(CompanyVO companyVO) throws Exception{
+         return compMapper.compCareer(companyVO);
+      }
+      
+      @Override
+      public void incareer(CompanyVO companyVO) throws Exception{
+         compMapper.inCareer(companyVO);
+      }
+      
+      @Override
+      public void recareer(CompanyVO companyVO) throws Exception {
+        compMapper.reCareer(companyVO);
+      }
+	   
+	   
 
 }

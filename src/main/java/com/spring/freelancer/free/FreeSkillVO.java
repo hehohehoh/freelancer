@@ -1,14 +1,13 @@
 package com.spring.freelancer.free;
 
-import java.util.List;
-
 import org.springframework.stereotype.Component;
 
 import lombok.Data;
 
 @Data
-@Component("carList")
-public class CareerList {
+@Component("freeSkillVO")
+public class FreeSkillVO {
 
-	private List<FreeCareerVO> carList;
+	private String free_id;
+	private String free_skill;
 }

@@ -53,6 +53,7 @@ public class PageMaker {
 	private void calcData() {
 		endPage = (int) (Math.ceil(cri.getPage() / (double)displayPageNum) * displayPageNum); 
 		startPage = (endPage - displayPageNum) + 1;
+		//시작 페이지 번호 = (끝 페이지 번호 - 화면에 보여질 페이지 번호의 갯수) +1
 		
 		int tempEndPage = (int) (Math.ceil(totalCount / (double)cri.getPerPageNum()));
 		if ( endPage > tempEndPage) {
@@ -62,12 +63,12 @@ public class PageMaker {
 		next = endPage * cri.getPerPageNum() >= totalCount ? false : true;
 		//다음 버튼 생성 여부 = 끝 페이지 번호 * 한 페이지당 보여줄 게시글의 갯수 < 총 게시글의 수 ? true: false
 		
-	}	//페이징의 버튼들을 생성하는 계산식을 만들었다. 끝 페이지 번호, 시작페이지 번호, 이전, 다음 버튼들을 구한다.
+	}	//페이징의 버튼들을 생성하는 계산식. 끝 페이지 번호, 시작페이지 번호, 이전, 다음 버튼들을 구한다.
 		//cri.getPage() : 시작페이지 번호 
 		//cri.getPerPageNum() : 한 페이지당 보여줄 게시글의 갯수 
 		//int endPage : 화면에 보여질 마지막 페이지 번호,끝 페이지 번호.
 	/* 마지막 페이지의 번호를 구한 뒤, 끝 페이지 번호보다 작은 경우에 마지막 페이지의 번호를 끝 페이지 번호로 저장해준다. 
-	 * 화면에 보여질 끝 페이지 번호는 마지막 페이지의 번호보다 클 수는 없다. 그렇기 때문에 위와 같은 조건을 넣어줘야 한다. 
+	 * 57~59행 : 화면에 보여질 끝 페이지 번호는 마지막 페이지의 번호보다 클 수는 없다. 그렇기 때문에 위와 같은 조건을 넣어줘야 한다. 
 	 * 이 부분은 시작 페이지 번호까지 구한 뒤에 처리해줘야 한다.
 	*/
 	
@@ -80,7 +81,13 @@ public class PageMaker {
 							.build();
 		return uriComponents.toUriString();						
 	}
-	
+	/*UriComponents : 이 클래스는 URI를 생성할 때 도움이 되는 Spring에서 제공해주는 클래스이다. 
+						쿼리 문자열을 추가해줘서 원하는 URI를 만들 수 있다. 
+						쿼리 문자열은 /board/boardList?IDX=77&page=3&perPageNum=10 주소 URI을 보면 ?(물음표) 
+						뒤에 오는 것들을 말한다. uriComponents를 사용하게 되면 /board/boardDetail${pageMaker.makeQueryPage(page)} 
+						이런식으로 사용이 가능하다
+
+	*/
 	
 	
 	// page, perPageNum, searchType, keyword를 url로 사용할수 있도록하는 makeSearch 메서드
