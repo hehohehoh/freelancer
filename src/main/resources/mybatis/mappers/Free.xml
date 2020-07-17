@@ -23,19 +23,46 @@
 		<result property="free_intro" column="free_intro" />
 		<result property="free_file" column="free_file" />
 		<result property="free_addr" column="free_addr" />
-		<result property="free_picture_thumb" column="free_picture_thumb" />
 	</resultMap>
 	
+	<resultMap id="skillResult" type="freeSkillVO">
+      <result property="free_id" column="free_id" />
+      <result property="free_skill" column="free_skill" />
+  </resultMap>
+   
+   <resultMap id="careerResult" type="freeCareerVO">
+   	 <result property="free_id" column="free_id" />
+   	 <result property="free_cnum" column="free_cnum" />
+   	 <result property="free_startdate" column="free_startdate" />
+   	 <result property="free_finishdate" column="free_finishdate" />
+   	 <result property="free_pname" column="free_pname" />
+   	 <result property="free_pwork" column="free_pwork" />
+   	 <result property="free_company" column="free_company" />
+   </resultMap>
+   
+ 	
 	<select id="selectAllFreelancersList" resultMap="freeResult">
 		SELECT * FROM
 		fr.free_info ORDER BY free_joinDate DESC
 	</select>
 	
+	<update id="stopFree" parameterType="String">
+		update free_info
+		set free_stop = 1
+		where free_id = #{free_id}
+	</update>
+	
+	<update id="releaseFree" parameterType="String">
+	 update free_info 
+	 set free_stop = 0 
+	 where free_id = #{free_id}
+	</update>
+	
 	<insert id="insertFree" parameterType="freeVO">
 		INSERT INTO	fr.free_info
 		VALUES(#{free_id}, #{free_pw}, #{free_firstName}, #{free_lastName},
-			 #{free_hp}, #{free_bir}, #{free_gender}, #{free_email}, default, 
-			 null, #{free_career}, default, default, null, #{free_level}, null, null, #{free_addr}, null)
+			 #{free_hp}, #{free_bir}, #{free_gender}, #{free_email}, default,  
+			 null, #{free_career}, default, default, #{free_pay}, #{free_level}, null, #{free_addr})
 	</insert>
 
 	<select id="checkOverId" resultType="int" parameterType="String">
@@ -44,15 +71,29 @@
 	
 	<select id="loginById" resultMap="freeResult" parameterType="freeVO">
 		select * from free_info where
-		free_id = #{free_id} and free_pw = #{free_pw}
+		free_id = #{free_id} and free_pw = #{free_pw} 
 	</select>
+	
+	<select id="findid" resultType="String" parameterType="freeVO">
+   	 	select free_id from free_info
+   		 where free_firstname = #{free_firstName} and free_lastname = #{free_lastName} and free_hp = #{free_hp} and free_email = #{free_email}
+  </select>
+   
+  <select id="findpw" resultType="String" parameterType="freeVO">
+  		select free_id
+       from free_info
+       where free_id = #{free_id} and free_firstname = #{free_firstName} and free_lastname = #{free_lastName} and free_hp = #{free_hp} and free_email = #{free_email}
+  </select>
+		
+	<update id="pwreset" parameterType="freeVO">
+  		update free_info
+       set free_pw = #{free_pw}
+       where free_id = #{free_id}
+  </update>
 
-	<update id="updateFree" parameterType="freeVO">
+	<update id="addFreePic" parameterType="String">
 		update free_info set
-		free_pay = #{free_pay}, 
-		free_intro = #{free_intro}, 
-		free_picture = #{free_picture}, 
-		free_picture_thumb = #{free_picture_thumb} 
+		free_picture = #{free_picture} 
 		where free_id = #{free_id}
 	</update>
 	
@@ -61,21 +102,133 @@
 		 (#{free_id}, #{free_cnum}, #{free_startdate}, #{free_finishdate}, #{free_pname}, #{free_pwork}, #{free_company})
 	</insert>
 	
-	<select id="findid" resultType="String" parameterType="freeVO">
-     	 	select free_id from free_info
-      		where free_firstname = #{free_firstName} and free_lastname = #{free_lastName} and free_hp = #{free_hp} and free_email = #{free_email}
-   	</select>
+	
+	<update id="addFreeFile" parameterType="String">
+		update free_info set 
+		free_file = #{free_file}
+		where free_id = #{free_id}
+	</update>
+	
+	<insert id="addFreeSkill" parameterType="String">
+		insert into free_skill values
+		 (#{free_id}, #{free_skill})
+	</insert>
+	
+	
+	<select id="SearchFree" resultMap="freeResult" parameterType="java.util.Map">  
+    select *
+    from   (select rownum no, i.*
+            from free_info i join (select DISTINCT free_id
+                              from free_skill
+                              where free_skill in 
+                              <foreach item="item" collection="lanList" open="(" separator=", " close=")" >
+                                 #{item}
+                              </foreach>
+                              ) s
+                              on (i.free_id = s.free_id)
+                  <where>
+                     <if test="free_level != '무관' and free_addr == '무관'">
+                        free_level = #{free_level} and (#{startCount}+9) >= rownum and i.free_state = 0
+                     </if>
+                     <if test="free_addr != '무관' and free_level == '무관'">
+                        free_addr Like #{free_addr} and (#{startCount}+9) >= rownum and i.free_state = 0
+                     </if>
+                     <if test="free_addr != '무관' and free_level != '무관'">
+                        free_level = #{free_level} and free_addr Like #{free_addr} and (#{startCount}+9) >= rownum and i.free_state = 0
+                     </if>
+                     <if test="free_addr == '무관' and free_level == '무관'">
+                        (#{startCount}+9) >= rownum and i.free_state = 0
+                     </if>
+                  </where>)
+   where no >= #{startCount}
+   </select>
+         
+   <select id="freeSkill" resultMap="skillResult" >
+      select *
+      from free_skill
+   </select>
    
-   	<select id="findpw" resultType="String" parameterType="freeVO">
-      		select free_id
-      		from free_info
-      		where free_id = #{free_id} and free_firstname = #{free_firstName} and free_lastname = #{free_lastName} and free_hp = #{free_hp} and free_email = #{free_email}
-   	</select>
-		
-	<update id="pwreset" parameterType="freeVO">
-      		update free_info
-      		set free_pw = #{free_pw}
-      		where free_id = #{free_id}
-   	</update>
+   <select id="freeCount" resultType="int" parameterType="java.util.Map">
+    select count(*)
+   from free_info i join (select DISTINCT free_id
+                              from free_skill
+                              where free_skill in
+                           <foreach item="item" collection="lanList" open="(" separator=", " close=")" >
+                                 #{item}
+                              </foreach>
+                              ) s
+                              on (i.free_id = s.free_id)
+                  <where>
+                     <if test="free_level != '무관' and free_addr == '무관'">
+                        free_level = #{free_level}
+                     </if>
+                     <if test="free_addr != '무관' and free_level == '무관'">
+                        free_addr Like #{free_addr}
+                     </if>
+                     <if test="free_addr != '무관' and free_level != '무관'">
+                        free_level = #{free_level} and free_addr Like #{free_addr}
+                     </if>
+                  </where>
+            
+   </select>
+   
+   <select id="freeInfo" resultMap="freeResult" parameterType="String">
+      select *
+      from free_info
+      where free_id = #{free_id}
+   </select>
+   
+   <select id="freeCareerList" resultMap="careerResult" parameterType="String">
+      select *
+      from free_career
+      where free_id = #{free_id}
+   </select>
+   
+   <select id="numOfCareer" resultType="int" parameterType="String">
+   	 select count(*) from free_career where free_id = #{free_id}
+   </select>
+   
+   <select id="numOfSkill" resultType="int" parameterType="String">
+   	 select count(*) from free_skill where free_id = #{free_id}
+   </select>
+   
+   
+   <select id="selectCarList" parameterType="String" resultMap="careerResult">
+   	 select * from free_career where free_id=#{free_id}
+   </select>
+   
+   <select id="selectSkill" parameterType="String" resultType="String">
+    	select free_skill from free_skill where free_id=#{free_id}
+   </select>
+   
+   <update id="modFree" parameterType="FreeVO">
+   	 update free_info set 
+   	  free_hp = #{free_hp},
+   	  free_email = #{free_email},
+   	  free_pay = #{free_pay},
+   	  free_level = #{free_level},
+   	  free_addr = #{free_addr}
+   	 where free_id = #{free_id} 
+   </update>
+   
+   <update id="stopFreeSelf" parameterType="String" >
+    update free_info set
+   	 free_state = 1
+   	where free_id = #{free_id}
+   </update>
+   
+   <update id="startFreeSelf" parameterType="String" >
+   	update free_info set
+   	 free_state = 0
+   	where free_id = #{free_id}
+   </update>
+   
+   <update id="dropFree" parameterType="String">
+   	update free_info set
+   	 free_stop = 2
+   	where free_id = #{free_id}
+   </update>
+   
+
 
 </mapper>

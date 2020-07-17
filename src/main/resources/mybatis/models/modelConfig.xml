@@ -14,10 +14,9 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.spring.freelancer.company.CompanyVO" alias="companyVO" />
 		
 		<typeAlias type="com.spring.freelancer.free.FreeVO" alias="FreeVO" />
-	  <typeAlias type="com.spring.freelancer.free.FreeCareerVO" alias="freeCareerVO" />
-	  <typeAlias type="com.spring.freelancer.free.CareerList" alias="careerList" />		
+	  <typeAlias type="com.spring.freelancer.free.FreeCareerVO" alias="FreeCareerVO" />
+	  <typeAlias type="com.spring.freelancer.free.FreeSkillVO" alias="freeSkillVO" />
 	  		
-		
 		<typeAlias type="com.spring.freelancer.board.vo.BoardVO" alias="BoardVO" />
 		<typeAlias type="com.spring.freelancer.board.vo.Criteria" alias="Criteria" />
 		<typeAlias type="com.spring.freelancer.board.vo.PageMaker" alias="PageMaker" />

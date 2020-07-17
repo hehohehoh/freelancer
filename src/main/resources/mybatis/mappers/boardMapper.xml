@@ -3,97 +3,182 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.spring.freelancer.mappers.BoardMapper">
-	<resultMap id="boardResult" type="boardVO">
-		<result property="bno" column="bno" />
-		<result property="title" column="title" />
-		<result property="content" column="content" />
-		<result property="writer" column="writer" />
-		<result property="regdate" column="regdate" />
-	</resultMap>
-	
-	<select id="list" resultType="boardVO">
-		Select 	BNO
-				, TITLE
-				, WRITER
-				, REGDATE
-				FROM fr.MP_BOARD
-				ORDER BY BNO DESC
-	</select>	
+   <resultMap id="boardResult" type="boardVO">
+      <result property="bno" column="bno" />
+      <result property="title" column="title" />
+      <result property="content" column="content" />
+      <result property="writer" column="writer" />
+      <result property="regdate" column="regdate" />
+   </resultMap>
+   
+   
+   
+   <select id="list" resultType="boardVO">
+      Select    BNO
+            , TITLE
+            , WRITER
+            , REGDATE
+            FROM fr.MP_BOARD
+            ORDER BY BNO DESC
+   </select>   
   
-	<insert id="insert" parameterType="boardVO">
-	   INSERT INTO fr.MP_BOARD(    BNO 
-	   					      , TITLE 
-	   					      , CONTENT 
-	   					      , WRITER  )
-	                 VALUES(    MP_BOARD_SEQ.NEXTVAL 
-	                 		  , #{title}
-	                 		  , #{content}
-	                 		  , #{writer}  )
-  	</insert>   
-  	
+  <!-- 
+  useGeneratedKeys : 자동적으로 증가되는 키를 받는 getGeneratedKeys() 를 사용할 수 있게 true로 성정
+  keyProperty : selectKey에의해 선택된 키(keyProperty="bno"가 무엇인지 설정
+  order="BEFORE"는 insert를 실행하기전에 실행 한다는 설정
+   -->
+   <insert id="insert" parameterType="boardVO" useGeneratedKeys="true" keyProperty="bno">
+      <selectKey keyProperty="bno" resultType="int" order="BEFORE">
+         SELECT MP_BOARD_SEQ.NEXTVAL FROM DUAL
+      </selectKey>
+      INSERT INTO fr.MP_BOARD(    BNO 
+                           , TITLE 
+                           , CONTENT 
+                           , WRITER  )
+                    VALUES(    #{bno}
+                            , #{title}
+                            , #{content}
+                            , #{writer}  )
+     </insert>   
+     
+     
    <select id="read" resultType="boardVO">
- 	SELECT	BNO
- 			, TITLE
- 			, CONTENT
- 			, WRITER
- 			, REGDATE
- 		FROM 	MP_BOARD
- 		WHERE BNO = #{bno}
+    SELECT   BNO
+          , TITLE
+          , CONTENT
+          , WRITER
+          , REGDATE
+       FROM    MP_BOARD
+       WHERE BNO = #{bno}
    </select>
    
    <update id="update" parameterType="BoardVO">
-   	UPDATE MP_BOARD
-   		SET TITLE	=	#{title},
-   			CONTENT	=	#{content}
-   		WHERE BNO = #{bno}
+      UPDATE MP_BOARD
+         SET TITLE   =   #{title},
+            CONTENT   =   #{content}
+         WHERE BNO = #{bno}
    </update>
    
    <delete id="delete" parameterType="int">
-   		DELETE
-   			FROM MP_BOARD
-   			WHERE BNO = #{bno}
+         DELETE
+            FROM MP_BOARD
+            WHERE BNO = #{bno}
    </delete>
    
 <select id="listPage" resultType="BoardVO" parameterType="SearchCriteria">
-		SELECT  BNO, 
-		        TITLE, 
-		        CONTENT,
-		        WRITER, 
-		        REGDATE
-		 FROM ( 
-		        SELECT BNO, 
-		               TITLE, 
-		               CONTENT, 
-		               WRITER, 
-		               REGDATE, 
-		               ROW_NUMBER() OVER(ORDER BY BNO DESC) AS RNUM
-		         FROM MP_BOARD
-		         WHERE 1=1 
-		         	<include refid="search"></include>
-		                       ) MP
-		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
-		ORDER BY BNO DESC
+      SELECT  BNO, 
+              TITLE, 
+              CONTENT,
+              WRITER, 
+              REGDATE,
+              HIT
+       FROM ( 
+              SELECT BNO, 
+                     TITLE, 
+                     CONTENT, 
+                     WRITER, 
+                     REGDATE,
+                     HIT, 
+                     ROW_NUMBER() OVER(ORDER BY BNO DESC) AS RNUM
+               FROM MP_BOARD
+               WHERE 1=1 AND WRITER !='admin'
+                  <include refid="search"></include>
+                             ) MP
+      WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+      ORDER BY BNO DESC
 </select>
+
 <!--FROM 절에서 rNum으로 약칭한 row_number()에 번호를 매깁니다. 내림차순이며,
-	이렇게 조회된 FROM 절 데이터로 다시 select 조회를 합니다.
-	조건은 rNum이 1~10까지 그리고 내림차순으로 조회한다는 뜻입니다.  -->
-	
+   이렇게 조회된 FROM 절 데이터로 다시 select 조회를 합니다.
+   조건은 rNum이 1~10까지 그리고 내림차순으로 조회한다는 뜻입니다.  -->
+   
 
  
     <select id="listCount" parameterType="SearchCriteria" resultType="int">
-   	SELECT COUNT(BNO)
-   	FROM MP_BOARD
-   	WHERE 1=1
-   	<include refid="search"></include>
-   		AND BNO > 0 
+      SELECT COUNT(BNO)
+      FROM MP_BOARD
+      WHERE 1=1
+      <include refid="search"></include>
+         AND BNO > 0 
    </select>    
        
-	<sql id="search">
-	   	<if test="searchType != null">
-	   		<if test="searchType == 't'.toString()">AND TITLE LIKE '%' || #{keyword} || '%'</if>
-	   		<if test="searchType == 'c'.toString()">AND CONTENT LIKE '%' || #{keyword} || '%'</if>
-	   		<if test="searchType == 'w'.toString()">AND WRITER LIKE '%' || #{keyword} || '%'</if>
-	   		<if test="searchType == 'tc'.toString()">AND (TITLE LIKE '%' || #{keyword} || '%') or (CONTENT LIKE '%' || #{keyword} || '%')</if>
-   		</if>
-  	</sql> 
+   <sql id="search">
+         <if test="searchType != null">
+            <if test="searchType == 't'.toString()">AND TITLE LIKE '%' || #{keyword} || '%'</if>
+            <if test="searchType == 'c'.toString()">AND CONTENT LIKE '%' || #{keyword} || '%'</if>
+            <if test="searchType == 'w'.toString()">AND WRITER LIKE '%' || #{keyword} || '%'</if>
+            <if test="searchType == 'tc'.toString()">AND (TITLE LIKE '%' || #{keyword} || '%') or (CONTENT LIKE '%' || #{keyword} || '%')</if>
+         </if>
+     </sql> 
+     
+     <!-- 첨부파일 업로드 -->
+     <insert id="insertFile" parameterType="hashMap">
+        INSERT INTO MP_FILE(
+           FILE_NO,
+           BNO,
+           ORG_FILE_NAME,
+           STORED_FILE_NAME,
+           FILE_SIZE
+        )VALUES(
+           SEQ_MP_FILE_NO.NEXTVAL,
+           #{BNO},
+           #{ORG_FILE_NAME},
+           #{STORED_FILE_NAME},
+           #{FILE_SIZE}
+        )
+     </insert>
+     
+     <!-- 첨부파일 표시 -->
+     <select id="selectFileList" parameterType="int" resultType="hashMap">
+        SELECT FILE_NO,
+              ORG_FILE_NAME,
+              ROUND(FILE_SIZE/1024,1) AS FILE_SIZE,
+              STORED_FILE_NAME
+        FROM MP_FILE
+        WHERE BNO = #{BNO}
+         AND DEL_GB ='N'
+        ORDER BY FILE_NO ASC
+     </select>
+
+     <!--  첨부파일을 조회하기 위해 게시글의 번호를 파라미터로 받아 사용
+            ROUND를 이용하여 1024로 파일크기를 나누고 소수점 1자리까지 표시
+      -->
+      <!-- 첨부파일 다운로드 -->
+      <select id="selectFileInfo" parameterType="hashMap" resultType="hashMap">
+         SELECT 
+            STORED_FILE_NAME,
+            ORG_FILE_NAME
+         FROM MP_FILE
+         WHERE FILE_NO = #{FILE_NO}
+      </select>
+      
+      <!-- 파입 수정 -->
+      <update id="updateFile" parameterType="hashMap">
+         UPDATE MP_FILE SET
+         DEL_GB = 'Y'
+         WHERE FILE_NO = #{FILE_NO}
+      </update>
+      <!-- 삭제한 파일은 DEL_GB(삭제여부)를 Y로 바꿔준다.(DEL_GB에 따라 N값이면 보이고 Y값이면 안보이게) -->
+      
+      <!-- 게시판 조회수 -->
+      <update id="boardHit" parameterType="int">
+         UPDATE MP_BOARD SET
+         HIT = HIT + 1
+         WHERE BNO = #{bno}
+      </update>
+      
+  <!-- 공지사항 -->
+<select id="notice" resultType="boardVO">
+<![CDATA[
+   SELECT  
+       ROWNUM, A.BNO, A.TITLE, A.CONTENT, A.WRITER, A.REGDATE, A.HIT
+    FROM (SELECT *
+           FROM MP_BOARD                     
+           WHERE WRITER = 'admin'
+          ORDER BY REGDATE  DESC
+     )A
+    WHERE ROWNUM <= 3
+  ]]>
+</select> 
+      
 </mapper>

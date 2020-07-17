@@ -53,7 +53,7 @@
 	<!-- 기업 로그인 -->
 	<select id="loginById" resultMap="compResult" parameterType="companyVO" >
 		select * from comp_info
-		where comp_id=#{comp_id} and comp_pw=#{comp_pw}
+		where comp_id=#{comp_id} and comp_pw=#{comp_pw} 
     </select>
     
     <select id="resultid" resultType="String" parameterType="companyVO">
@@ -72,6 +72,35 @@
       update comp_info
       set comp_pw = #{comp_pw}
       where comp_id = #{comp_id}
+   </update>
+   
+   
+   
+   <!-- 마이페이지 개인정보 수정 -->
+   <update id="mypageInfo" parameterType="companyVO">
+        update COMP_INFO
+      SET comp_mname = #{comp_mname}, comp_mhp = #{comp_mhp}, comp_memail = #{comp_memail}, comp_bnum = #{comp_bnum}, comp_career = #{comp_career}
+      where comp_id = #{comp_id}
+   </update>
+   
+   <!-- 마이페이지 회사이력 불러오기 -->
+   <select id="compCareer" resultMap="compResult">
+     select * from comp_career
+     where comp_id=#{comp_id} 
+     order by comp_cnum
+   </select>
+   
+   <!--  마이페이지 회사이력 DB 추가 -->
+   <insert id="inCareer" parameterType="companyVO">
+       insert into comp_career 
+       values(#{comp_id}, #{comp_cnum}, #{comp_pname}, #{comp_pwork}, #{comp_startdate}, #{comp_finishdate})
+   </insert>
+   
+   <!--  마이페이지 회사이력 수정 -->
+   <update id="reCareer" parameterType="companyVO">
+      update COMP_CAREER
+      SET comp_pname = #{comp_pname}, comp_pwork = #{comp_pwork}, comp_startdate = #{comp_startdate}, comp_finishdate = #{comp_finishdate}
+      where comp_cnum = #{comp_cnum}
    </update>
     
     
