@@ -7,9 +7,9 @@
 
 <div>
 	<div>
-		<a href="${contextPath}/main.do">메인 홈으로 가기</a>	
 		<a href="${contextPath}/board/list">목록</a>
 		<a href="${contextPath}/board/writeView">글 작성</a>	
+		<a href="${contextPath}/free/logout.do">로그아웃</a>	
 
 	</div>
 </div>

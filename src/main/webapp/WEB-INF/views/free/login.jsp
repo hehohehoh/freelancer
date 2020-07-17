@@ -20,10 +20,9 @@
 <body>
 
 	${free.free_id}님의 로그인이 완료되었습니다.<br>
-	<a href="">마이페이지</a><br>
+	<a href="${contextPath }/free/goMypage.do">마이페이지</a><br>
 	
 	<form method="post" action="${contextPath }/board/list">
-		<input type="hidden" name="free_id" value="${free.free_id }" />
 		<input type="submit" value="게시판 보러가기" />
 	</form>
 </body>

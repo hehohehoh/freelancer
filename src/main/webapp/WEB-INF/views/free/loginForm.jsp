@@ -14,14 +14,31 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<c:if test="${result== 'fail' }">
+<c:if test="${result == 'fail' }">
 		<script>
 			window.onload = function() {
 				alert("아이디나 비밀번호가 틀립니다.다시 로그인 하세요!");
 			}
 		</script>
 </c:if>
-<script>
+
+<c:if test="${freeID != null}">
+		<script>
+			window.onload = function() {
+				alert("${freeID}는 사용할 수 없는 ID입니다.");
+			}
+		</script>
+</c:if>
+
+<c:if test="${status == 'finish' }">
+		<script>
+			window.onload = function() {
+				alert("회원가입이 완료되었습니다. 로그인 후 서비스를 이용해주세요!");
+			}
+		</script>
+</c:if>
+
+	<script>
         function popupid(){
             var url = "${contextPath}/free/findid.do";
             var name = "popup test";
@@ -35,7 +52,7 @@
             var option = "width = 700, height = 500, top = 100, left = 200, location = no"
             window.open(url, name, option);
         }
-</script>
+	</script>
 </head>
 <body>
 	<c:choose>
@@ -49,15 +66,14 @@
 	</c:choose>
 	
 	<form method="post" action="${contextPath }/free/login.do">
-	아이디: <input type="text" name="free_id" id="free_id" /><br>
+	아이디: <input type="text" id="free_id" name="free_id" /><br>
 	비밀번호: <input type="password" name="free_pw" />
 	<input type="submit" value="로그인" />
 	</form>
 	<br>
-	<a href="${contextPath}/free/form.do">회원가입하기</a>
+	<a href="${contextPath}/free/basicForm.do">회원가입하기</a>
 	<a href="javascript:popupid()">아이디 찾기</a>
-    	<a href="javascript:popuppw()">비밀번호 찾기</a>
-	<a href="${contextPath}/free/listFreelancers.do">프리랜서 목록 보기</a>
+  <a href="javascript:popuppw()">비밀번호 찾기</a>
 	
 </body>
 </html>

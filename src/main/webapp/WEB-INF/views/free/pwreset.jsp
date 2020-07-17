@@ -15,7 +15,8 @@
 function MovePage() {
 	//window.opener.top.location.href="login.do"
 	opener.document.getElementById("free_id").value = document.getElementById("id").value
-	window.close();
+	// window.close();
+	window.open("about:blank","_self").close();
 }
 </script>
 </head>
@@ -33,3 +34,4 @@ function MovePage() {
 	</form>
 </body>
 </html>
+

@@ -17,7 +17,7 @@
 <body>
 	<div id="root">
 		<header>
-			<h1>${free_id }으로 로그인 되었습니다</h1>
+			<h1>${free.free_id }으로 로그인 되었습니다.</h1>
 		</header>
 		<hr />
 
@@ -30,21 +30,32 @@
 			<form role="form" method="get" action="${contextPath}/board/write">
 				<table>
 					<tr>
-						<th>번호</th>
+						<th>글번호</th>
 						<th>제목</th>
 						<th>작성자</th>
 						<th>등록일</th>
+						<th>조회수</th>
 					</tr>
-
+					<c:forEach items="${notice}" var="notice">
+					<tr>
+						<td>공지사항 </td>
+						<td><a href="${contextPath}/board/readView?bno=${notice.bno}&page=${scri.page}&perPageNum=${scri.perPageNum}&searchType=${scri.searchType}&keyword=${scri.keyword}"><c:out value="${notice.title}" /></a>
+						<td>운영자</td>
+						<td><fmt:formatDate value="${notice.regdate}"
+									pattern="yyyy-MM-dd HH:mm:ss" /></td>
+						<td align="center"><c:out  value="${notice.hit }" /></td>
+						
+					</tr>
+					</c:forEach>
 					<c:forEach items="${list}" var="list">
 						<tr>
-
-							<td><c:out value="${list.bno}" /></td>
+							<td align="center"><c:out  value="${list.bno}" /></td>
 							<td><a href="${contextPath}/board/readView?bno=${list.bno}&page=${scri.page}&perPageNum=${scri.perPageNum}&searchType=${scri.searchType}&keyword=${scri.keyword}"><c:out value="${list.title}" /></a>
 							</td>
 							<td><c:out value="${list.writer}" /></td>
 							<td><fmt:formatDate value="${list.regdate}"
 									pattern="yyyy-MM-dd HH:mm:ss" /></td>
+							<td align="center"><c:out  value="${list.hit }" /></td>
 						</tr>
 					</c:forEach>
 				</table>

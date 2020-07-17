@@ -17,16 +17,6 @@
 <title>비밀번호 찾기</title>
 	<!-- 아이디중복    체크 -->
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-	
-	<c:choose>
-		<c:when test="${result=='findpwFailed'}">
- 		<script>
-   			window.onload=function(){
-   				alert("정보를 정확하게 입력해주세요");
-   			}
- 		</script>
-		</c:when>
-	</c:choose>  
 	<script type="text/javascript">
 	
 	/* 빈칸 확인 및 값들넘겨주기 */
@@ -104,7 +94,7 @@
 	    </tr>
 	    <tr>
 	       <td width="200"><p align="right">담당자핸드폰번호</td>
-	       <td width="400"><p><input type="text" name="comp_mhp" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"> ("-"제외 숫자만 입력하시오)</td>
+	       <td width="400"><p><input type="text" name="comp_mhp" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');">("-"제외 숫자만 입력하시오)</td>
 	    </tr>
 	    <tr>
 	       <td width="200"><p align="right">담당자 이메일</td>

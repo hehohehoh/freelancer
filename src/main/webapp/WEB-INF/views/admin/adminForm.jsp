@@ -3,24 +3,23 @@
     isELIgnored="false" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%
-  request.setCharacterEncoding("UTF-8");
-%> 
+
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 
+<%
+   request.setCharacterEncoding("UTF-8");
+%> 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>기업 페이지</title>
+<title>Insert title here</title>
 </head>
 <body>
-	<h3>로그인 됐습니다!!</h3>
-    <c:if test="${isLogOn == true  && company!= null}">
-         <h3>환영합니다. ${company.comp_mname}님!</h3>
-         <a href="${contextPath}/comp/logout.do" style="font-size:110%">로그아웃</a>
-    </c:if>
-    <a href="${contextPath}/comp/mypagepw.do">마이페이지로 이동</a>
- 
+	<a href="${contextPath}/admin/compAppro.do">기업 가입 승인</a><br><br>
+	<a href="${contextPath}/admin/listFreelancers.do">기업 회원 관리</a><br><br>
+	<a href="${contextPath }/admin/listFreelancers.do">프리랜서 회원 관리</a><br><br>
+	
+	
 </body>
 </html>

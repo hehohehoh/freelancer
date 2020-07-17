@@ -90,16 +90,25 @@
 	     });
 	};
 	
-
+	function Pwd(){
+		var f1 = document.forms[0];
+		var pw1 = f1.comp_pw.value;
+		if(pw1==""){
+			document.getElementById('Pwd').innerHTML = " ";
+		}else if(pw1.length < 8 || pw1.length > 16){
+			document.getElementById('Pwd').style.color ="black";
+			document.getElementById('Pwd').innerHTML = "8~16자리로 입력해주세요";
+		}else{
+			document.getElementById('Pwd').innerHTML = " ";
+		}
+	}
+	
 	function checkPwd(){
 		var f1 = document.forms[0];
 		var pw1 = f1.comp_pw.value;
 		var pw2 = f1.comp_pw_re.value;
 		if(pw2==""){
 			document.getElementById('checkPwd').innerHTML = " ";
-		}else if(pw2.length < 8 || pw2.length > 16){
-			document.getElementById('checkPwd').style.color ="black";
-			document.getElementById('checkPwd').innerHTML = "8~16자리로 입력해주세요";
 		}else if(pw1!=pw2){
 			document.getElementById('checkPwd').style.color = "red";
 			document.getElementById('checkPwd').innerHTML = "동일한 비밀번호를 입력하세요.";
@@ -156,7 +165,8 @@
 	   </tr>
 	    <tr>
 	      <td width="200"><p align="right">비밀번호</td>
-	      <td width="400"><input type="password" name="comp_pw"></td>
+	      <td width="400"><input type="password" name="comp_pw" onkeyup="Pwd()">
+	      <br><span id="Pwd" style="font-size:70%;"></span></td>
 	    </tr>
 	    <tr>
 	      <td width="200"><p align="right">비밀번호 확인</td>

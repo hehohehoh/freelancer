@@ -11,6 +11,12 @@
 		$(document).ready(function(){		
 			var formObj = $("form[name='updateForm']");
 			
+			$(document).on("click", "#fileDel", function(){
+				$(this).parent().remove();
+			})
+			
+			fn_addFile();
+			
 			
 			$(".cancel_btn").on("click", function(){
 				event.preventDefault();
@@ -40,7 +46,30 @@
 			}
 			
 		}
+		function fn_addFile() { //<input type="file">을 생성하는 버튼 및 그 생성된 파일 삽입칸을 삭제하는 버튼 생성 
+			var fileIndex = 1;
+			
 		
+			$(".fileAdd_btn").on("click", function(){
+				//작동시 fileIndex(파일 부분)에 삽입칸을 생성한다.
+				$("#fileIndex").append("<div><input type='file' style='float:left;' name='file_"+(fileIndex++)+"'>"+"</button>"+"<button type='button' style='float:right;' id='fileDelBtn'>"+"삭제"+"</button></div>");
+			});
+			
+			//파일 삭제(fileDelBtn)버튼을 누르면 기능함(파일 삽입칸 삭제)
+			$(document).on("click", "#fileDelBtn", function(){
+				$(this).parent().remove();
+			});
+		}
+		
+		var fileNoArry = new Array();
+		var fileNameArry = new Array();
+		function fn_del(value, name){
+			
+			fileNoArry.push(value);
+			fileNameArry.push(name);
+			$("#fileNoDel").attr("value", fileNoArry);
+			$("#fileNameDel").attr("value", fileNameArry);
+		}
 		
 		
 	
@@ -59,8 +88,18 @@
 			<hr />
 			
 			<section id="container">
-				<form name="updateForm" role="form" method="post" action="${contextPath}/board/update">
+				<form name="updateForm" role="form" method="post" action="${contextPath}/board/update" enctype="multipart/form-data">
 					<input type="hidden" name="bno" value="${update.bno}" readonly="readonly"/>
+					<input type="hidden" id="page" name="page" value="${scri.page}"/>
+					<input type="hidden" id="perPageNum" name="perPageNum" value="${scri.perPageNum}"/>
+					<input type="hidden" id="searchType" name="searchType" value="${scri.searchType}"/>
+					<input type="hidden" id="keyword" name="keyword" value="${scri.keyword}"/>
+					<input type="hidden" id="fileNoDel" name="fileNoDel[]" value=""/> <!-- 없을 수도 있으니 밸류 널값 처리 -->
+					<input type="hidden" id="fileNameDel" name="fileNameDel[]" value=""/><!-- 없을 수도 있으니 밸류 널값 처리 -->
+					
+					
+					
+					
 					<table>
 						<tbody>
 							<tr>
@@ -83,12 +122,25 @@
 									<label for="regdate">작성날짜</label>
 									<fmt:formatDate value="${update.regdate}" pattern="yyyy-MM-dd"/>					
 								</td>
-							</tr>		
+							</tr>
+							<tr>
+								<td id="fileIndex">
+									<c:forEach var="file" items="${file}" varStatus="var">
+									<div>
+										<input type="hidden" id="FILE_NO" name="FILE_NO_${var.index}" value="${file.FILE_NO }">
+										<input type="hidden" id="FILE_NAME" name="FILE_NAME" value="FILE_NO_${var.index}">
+										<a href="#" id="fileName" onclick="return false;">${file.ORG_FILE_NAME}</a>(${file.FILE_SIZE}KB)
+										<button id="fileDel" onclick="fn_del('${file.FILE_NO}','FILE_NO_${var.index}');" type="button">삭제</button><br>
+									</div>
+									</c:forEach>	
+								</td>
+							</tr>
 						</tbody>			
 					</table>
 					<div>
 						<button type="submit" class="update_btn">저장</button>
 						<button type="submit" class="cancel_btn">취소</button>
+						<button type="button" class="fileAdd_btn">파일추가</button>
 					</div>
 				</form>
 			</section>

@@ -12,20 +12,24 @@
 <meta charset="UTF-8">
 <title>비밀번호찾기 결과창1</title>
 <script>
+
+
+
 /* 빈칸 확인 및 값들넘겨주기 */
 function pw_reset(){
-	var free_pw = pwreset.free_pw.value;
-	var free_pw_re = pwreset.free_pw_re.value;
+	var comp_pw = pwreset.comp_pw.value;
+	var comp_pw_re = pwreset.comp_pw_re.value;
 	
-	if(free_pw.length==0 || free_pw==""){
+
+	if(comp_pw.length==0 || comp_pw==""){
 		alert("비밀번호를 입력해주세요");
-	}else if(free_pw_re.length==0 || free_pw_re==""){
+	}else if(comp_pw_re.length==0 || comp_pw_re==""){
 		alert("비밀번호 확인을 입력해주세요");
-	}else if(free_pw.length < 8 || free_pw.length > 16){
+	}else if(comp_pw.length < 8 || comp_pw.length > 16){
 		alert("비밀번호를 8~16자리로 입력해주세요");
 	}else{
 		pwreset.method = "post";
-		pwreset.action = "${contextPath}/free/pwreset.do";
+		pwreset.action = "${contextPath}/comp/pwreset.do";
 		pwreset.submit();
 	}
 	
@@ -33,7 +37,7 @@ function pw_reset(){
 
 function Pwd(){
 	var f1 = document.forms[0];
-	var pw1 = f1.free_pw.value;
+	var pw1 = f1.comp_pw.value;
 	if(pw1==""){
 		document.getElementById('Pwd').innerHTML = " ";
 	}else if(pw1.length < 8 || pw1.length > 16){
@@ -44,11 +48,12 @@ function Pwd(){
 	}
 }
 
+
 /* 비밀번호 조건확인 및 일치확인  */
 function checkPwd(){
 	var f1 = document.forms[0];
-	var pw1 = f1.free_pw.value;
-	var pw2 = f1.free_pw_re.value;
+	var pw1 = f1.comp_pw.value;
+	var pw2 = f1.comp_pw_re.value;
 	if(pw2==""){
 		document.getElementById('checkPwd').innerHTML = " ";
 	}else if(pw1!=pw2){
@@ -66,21 +71,21 @@ function checkPwd(){
 </head>
 <body>
 	<form name="pwreset">
-		<input type="hidden" value="${id}" id="free_id" name="free_id"/>
+		<input type="hidden" value="${id}" id="comp_id" name="comp_id"/>
 				<table>	
 			<tr>
               <TD colspan="2"><p align="center">${id}님의 비밀번호 재설정</p></TD>		
 			</tr>
 			<tr>
 	      		<td width="200"><p align="right">비밀번호</td>
-	      		<td width="400"><input type="password" name="free_pw" id="free_pw" onkeyup="Pwd()">
+	      		<td width="400"><input type="password" name="comp_pw" id="comp_pw" onkeyup="Pwd()">
 	      		<br><span id="Pwd" style="font-size:70%;"></span>
 	      		</td>
 	    	</tr>
 	    	<tr>
 	      		<td width="200"><p align="right">비밀번호 확인</td>
 	      		<td width="400">
-	      			<input type="password" name="free_pw_re" onkeyup="checkPwd()" />
+	      			<input type="password" name="comp_pw_re" onkeyup="checkPwd()" />
 	      			<br><span id="checkPwd" style="font-size:70%;"></span>
 	      		</td>
 	    	</tr>

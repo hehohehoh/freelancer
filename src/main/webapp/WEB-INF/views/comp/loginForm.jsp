@@ -23,6 +23,14 @@
    		</c:when>
 	</c:choose>  
 	
+	<c:if test="${compID != null}">
+		<script>
+			window.onload = function() {
+				alert("${compID}는 사용할 수 없는 ID입니다.");
+			}
+		</script>
+	</c:if>
+	
 	<script>
         function popupid(){
             var url = "${contextPath}/comp/findid.do";

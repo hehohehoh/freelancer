@@ -14,8 +14,7 @@
 <script>
 function MovePage() {
 	//window.opener.top.location.href="login.do"
-	opener.document.getElementById("free_id").value = document.getElementById("id").value;
-	//window.close();
+	opener.document.getElementById("comp_id").value = document.getElementById("id").value;
 	window.open("about:blank","_self").close();
 }
 </script>
