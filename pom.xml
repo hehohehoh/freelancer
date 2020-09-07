@@ -30,6 +30,13 @@
 	<!-- 게시판 시작 06.24 -->
 	<dependencies>
 	
+	<!-- 차트 -->
+	 <dependency>
+      <groupId>com.googlecode.json-simple</groupId>
+      <artifactId>json-simple</artifactId>
+      <version>1.1</version>
+   </dependency>
+	
 	<!-- 통합  06.30 -->
 		<dependency>
     	<groupId>commons-codec</groupId>
