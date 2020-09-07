@@ -14,7 +14,6 @@ public class ViewNameInterceptor extends HandlerInterceptorAdapter{
 		
 			try {
 				String viewName = getViewName(request);
-				System.out.println("viewName:" + viewName);
 				request.setAttribute("viewName", viewName);
 			} catch (Exception e) {
 				e.printStackTrace();

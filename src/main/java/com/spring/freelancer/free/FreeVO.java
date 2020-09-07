@@ -30,7 +30,6 @@ public class FreeVO {
 	private int free_stop;
 	private String free_pay;
 	private String free_level;
-	private String free_intro;
 	private String free_file;
 	private String free_addr;
 	

@@ -9,9 +9,10 @@ import com.spring.freelancer.board.vo.ReplyVO;
 @Mapper
 public interface ReplyMapper {
 	
-	public List<ReplyVO> readReply(int bno) throws Exception;
-	public void writeReply(ReplyVO vo) throws Exception;
-	public void updateReply(ReplyVO vo) throws Exception;
-	public void deleteReply(ReplyVO vo) throws Exception;
-	public ReplyVO selectReply(int rno) throws Exception;
+	//AJAX처리.
+	public List<ReplyVO> replyRead(int bno) throws Exception; 	// 댓글 목록
+	public int insertReply(ReplyVO vo)throws Exception;			// 댓글 입력
+	public int replyUpdate(ReplyVO vo)throws Exception;			// 댓글 수정
+	public int replyDelete(int rno)throws Exception;
+	
 }

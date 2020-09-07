@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.freelancer.board.vo.BoardVO;
-import com.spring.freelancer.board.vo.ReplyVO;
 import com.spring.freelancer.board.vo.SearchCriteria;
 
 public interface BoardController {
@@ -31,14 +30,7 @@ public interface BoardController {
 			@RequestParam(value="fileNameDel[]") String[] fileNames,
 			MultipartHttpServletRequest mpRequest) throws Exception;
 	String delete(BoardVO boardVO,SearchCriteria scri, RedirectAttributes rttr) throws Exception;
-	String replyWrite(ReplyVO vo, SearchCriteria scri, RedirectAttributes rttr) throws Exception;
-
 	void fileDown(Map<String, Object> map, HttpServletResponse response) throws Exception;
 
-	/*
-	 * String notice(Model model, SearchCriteria scri, HttpServletRequest request)
-	 * throws Exception;
-	 */
-	
 
 }

@@ -17,17 +17,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.freelancer.board.service.BoardService;
-import com.spring.freelancer.board.service.ReplyService;
 import com.spring.freelancer.board.vo.BoardVO;
 import com.spring.freelancer.board.vo.PageMaker;
-import com.spring.freelancer.board.vo.ReplyVO;
 import com.spring.freelancer.board.vo.SearchCriteria;
-import com.spring.freelancer.free.FreeVO;
 
 @Controller("boardController")
 public class BoardControllerImpl implements BoardController{
@@ -38,15 +34,13 @@ public class BoardControllerImpl implements BoardController{
 	private BoardService service;
 	@Autowired 
 	BoardVO boardVO;
-	@Autowired
-	private ReplyService replyService;
 
 	//게시판 화면 불러오는 메소드
 	@Override
 	@RequestMapping(value ="/board/list", method = {RequestMethod.GET, RequestMethod.POST})
 	public String list( Model model, @ModelAttribute("scri") SearchCriteria scri, HttpServletRequest request) throws Exception {
 									//페이징 처리하는 Criteria를 상속받아 페이징 기능을 사용하고, SearchCriteria클래스의 검색 기능 활용
-		logger.info("list");
+		System.out.println("리스트 접속");
 		model.addAttribute("list", service.list(scri));
 		model.addAttribute("notice", service.notice());
 		
@@ -81,14 +75,12 @@ public class BoardControllerImpl implements BoardController{
 		model.addAttribute("read", service.read(boardVO.getBno()));
 		model.addAttribute("scri", scri);
 		
-		//댓글 리스트 표시 코드
-		List<ReplyVO> replyList = replyService.readReply(boardVO.getBno());
-		model.addAttribute("replyList", replyList);
+		
 		
 		//파일 표시하는 코드
 		List<Map<String, Object>> fileList = service.selectFileList(boardVO.getBno());
 		model.addAttribute("file", fileList);
-		System.out.println(fileList);
+		
 
 		return "board/readView";	
 	}
@@ -97,7 +89,6 @@ public class BoardControllerImpl implements BoardController{
 	@RequestMapping(value = "/board/updateView", method = RequestMethod.GET)
 	public String updateView(BoardVO boardVO, @ModelAttribute("scri") SearchCriteria scri, Model model) throws Exception{
 		logger.info("updateView");	
-		
 		model.addAttribute("update", service.read(boardVO.getBno()));	
 		model.addAttribute("scri", scri);
 		
@@ -107,26 +98,29 @@ public class BoardControllerImpl implements BoardController{
 		return "board/updateView";
 	}
 	//게시글 수정
-	@Override
-	@RequestMapping(value = "/board/update", method = RequestMethod.POST)
-	public String update(BoardVO boardVO,
-			@ModelAttribute("scri") SearchCriteria scri,
-			RedirectAttributes rttr,
-			@RequestParam(value="fileNoDel[]") String[] files,//JSP에서 지정한 fileNoDel을 String[] 타입으로 담는다
-			@RequestParam(value="fileNameDel[]") String[] fileNames,//JSP에서 지정한 fileNameDel을 String[] 타입으로 담는다
-			MultipartHttpServletRequest mpRequest) throws Exception{
-		logger.info("update");	
-		
-		service.update(boardVO, files, fileNames, mpRequest);
-		
-		
-		rttr.addAttribute("page", scri.getPage());
-		rttr.addAttribute("perPageNum", scri.getPerPageNum());
-		rttr.addAttribute("searchType", scri.getSearchType());
-		rttr.addAttribute("keyword", scri.getKeyword());
-		
-		return "redirect:/board/list";
-	}
+	   @Override
+	   @RequestMapping(value = "/board/update", method = RequestMethod.POST)
+	   public String update(BoardVO boardVO,
+	         @ModelAttribute("scri") SearchCriteria scri,
+	         RedirectAttributes rttr,
+	         @RequestParam(value="fileNoDel[]") String[] files,//JSP에서 지정한 fileNoDel을 String[] 타입으로 담는다
+	         @RequestParam(value="fileNameDel[]") String[] fileNames,//JSP에서 지정한 fileNameDel을 String[] 타입으로 담는다
+	         MultipartHttpServletRequest mpRequest) throws Exception{
+	      logger.info("update");   
+	      service.update(boardVO, files, fileNames, mpRequest);
+	      
+	      
+	      String bno =  String.valueOf(boardVO.getBno());
+	      
+	      
+	      rttr.addAttribute("bno", bno); 
+	      rttr.addAttribute("page", scri.getPage());
+	      rttr.addAttribute("perPageNum", scri.getPerPageNum());
+	      rttr.addAttribute("searchType", scri.getSearchType());
+	      rttr.addAttribute("keyword", scri.getKeyword());
+	      
+	      return "redirect:/board/readView";
+	   }
 	//게시글 삭제
 	@Override
 	@RequestMapping(value = "/board/delete", method = RequestMethod.POST)
@@ -169,99 +163,7 @@ public class BoardControllerImpl implements BoardController{
 		response.getOutputStream().flush();
 		response.getOutputStream().close();
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	//댓글 관련 메서드
 
-	@Override
-	@RequestMapping(value="/board/replyWrite", method = RequestMethod.POST)
-	public String replyWrite(ReplyVO vo, SearchCriteria scri, RedirectAttributes rttr) throws Exception{
-		logger.info("reply Write");
-		
-		replyService.writeReply(vo);
-		
-		rttr.addAttribute("bno", vo.getBno());
-		rttr.addAttribute("page", scri.getPage());
-		rttr.addAttribute("perPageNum", scri.getPerPageNum());
-		rttr.addAttribute("searchType", scri.getSearchType());
-		rttr.addAttribute("keyword", scri.getKeyword());
-		
-		return "redirect:/board/readView";
-	}
-	
-	@RequestMapping(value="/board/replyUpdateView", method = {RequestMethod.GET,RequestMethod.POST})
-	public String replyUpdateView(ReplyVO vo, SearchCriteria scri, Model model) throws Exception{
-		logger.info("reply Write");
-		
-		model.addAttribute("replyUpdate", replyService.selectReply(vo.getRno()));
-		model.addAttribute("scri", scri);
-		
-		return "board/replyUpdateView";
-	}
-	
-	@RequestMapping(value="/board/replyUpdate", method = {RequestMethod.GET,RequestMethod.POST})
-	public String replyUpdate(@SessionAttribute("free") FreeVO freeVO,ReplyVO vo, SearchCriteria scri, RedirectAttributes rttr) throws Exception{
-		logger.info("reply Write");
-		
-		replyService.updateReply(vo);
-		
-		rttr.addAttribute("bno", vo.getBno());
-		rttr.addAttribute("page", scri.getPage());
-		rttr.addAttribute("perPageNum", scri.getPerPageNum());
-		rttr.addAttribute("searchType", scri.getSearchType());
-		rttr.addAttribute("keyword", scri.getKeyword());
-		
-		return "redirect:/board/readView";
-	}
-	
 
-	
-	@RequestMapping(value="/board/replyDeleteView", method = {RequestMethod.GET,RequestMethod.POST})
-	public String replyDeleteView(ReplyVO vo, SearchCriteria scri, Model model) throws Exception{
-		logger.info("reply Write");
-		
-		model.addAttribute("replyDelete", replyService.selectReply(vo.getRno()));
-		model.addAttribute("scri", scri);
-		
-		
-		return "board/replyDeleteView";
-	}
-	
-	@RequestMapping(value="/board/replyDelete", method = {RequestMethod.GET,RequestMethod.POST})
-	public String replyDelete(ReplyVO vo, SearchCriteria scri, RedirectAttributes rttr) throws Exception{
-		logger.info("reply Write");
-
-		replyService.deleteReply(vo);
-			
-		rttr.addAttribute("bno", vo.getBno());
-		rttr.addAttribute("page", scri.getPage());
-		rttr.addAttribute("perPageNum", scri.getPerPageNum());
-		rttr.addAttribute("searchType", scri.getSearchType());
-		rttr.addAttribute("keyword", scri.getKeyword());
-		
-		
-		return "redirect:/board/readView";
-	}
-	
-	/*
-	 * @Override
-	 * 
-	 * @RequestMapping(value ="/board/list", method = {RequestMethod.GET,
-	 * RequestMethod.POST}) public String notice( Model
-	 * model, @ModelAttribute("scri") SearchCriteria scri, HttpServletRequest
-	 * request) throws Exception { //페이징 처리하는 Criteria를 상속받아 페이징 기능을 사용하고,
-	 * SearchCriteria클래스의 검색 기능 활용 logger.info("list"); model.addAttribute("list",
-	 * service.notice(scri)); PageMaker pageMaker = new PageMaker();
-	 * pageMaker.setCri(scri); // page와 perPageNum을 셋팅해준다.
-	 * pageMaker.setTotalCount(service.listCount(scri)); //총 게시글의 수를 셋팅.
-	 * model.addAttribute("pageMaker", pageMaker); return "/board/list"; }
-	 */
-	
 	
 }

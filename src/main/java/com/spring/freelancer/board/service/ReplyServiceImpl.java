@@ -18,29 +18,23 @@ public class ReplyServiceImpl implements ReplyService {
 	private  ReplyMapper replyMapper;
 	@Autowired
 	ReplyVO replyVO;
-	
-	@Override
-	public List<ReplyVO> readReply(int bno) throws Exception {
-		return replyMapper.readReply(bno);
-	}
 
+	//AJAX처리
 	@Override
-	public void writeReply(ReplyVO vo) throws Exception {
-		replyMapper.writeReply(vo);
+	public List<ReplyVO> replyRead(int bno) throws Exception {
+		return replyMapper.replyRead(bno);
 	}
-
 	@Override
-	public void updateReply(ReplyVO vo) throws Exception {
-		replyMapper.updateReply(vo);
+	public int replyInsert(ReplyVO vo) throws Exception {
+		return replyMapper.insertReply(vo);
 	}
-
 	@Override
-	public void deleteReply(ReplyVO vo) throws Exception {
-		replyMapper.deleteReply(vo);
+	public int replyUpdate(ReplyVO vo)throws Exception{
+		return replyMapper.replyUpdate(vo);
 	}
-
 	@Override
-	public ReplyVO selectReply(int rno) throws Exception {
-		return replyMapper.selectReply(rno);
+	public int replyDelete(int rno)throws Exception{
+		return replyMapper.replyDelete(rno);
+		
 	}
 }

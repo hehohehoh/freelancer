@@ -6,9 +6,9 @@ import com.spring.freelancer.board.vo.ReplyVO;
 
 public interface ReplyService {
 	
-	public List<ReplyVO> readReply(int bno) throws Exception;
-	public void writeReply(ReplyVO vo) throws Exception;
-	public void updateReply(ReplyVO vo) throws Exception;
-	public void deleteReply(ReplyVO vo) throws Exception;
-	public ReplyVO selectReply(int rno) throws Exception;
+	//AJAX 처리
+	public List<ReplyVO> replyRead(int bno) throws Exception;
+	int replyInsert(ReplyVO vo) throws Exception;
+	int replyUpdate(ReplyVO vo) throws Exception;
+	int replyDelete(int rno) throws Exception;
 }

@@ -4,6 +4,8 @@ import java.util.Date;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 @Data
@@ -14,10 +16,11 @@ public class ReplyVO {
 	private int rno;
 	private String content;
 	private String writer;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
 	private Date regdate;
 	
 	
-
+	
 	@Override
 	public String toString() {
 		return "ReplyVO [bno=" + bno + ", rno=" +rno + ", content=" 
