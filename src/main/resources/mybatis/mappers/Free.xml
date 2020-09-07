@@ -20,7 +20,6 @@
 		<result property="free_stop" column="free_stop" />
 		<result property="free_pay" column="free_pay" />
 		<result property="free_level" column="free_level" />
-		<result property="free_intro" column="free_intro" />
 		<result property="free_file" column="free_file" />
 		<result property="free_addr" column="free_addr" />
 	</resultMap>
@@ -28,7 +27,7 @@
 	<resultMap id="skillResult" type="freeSkillVO">
       <result property="free_id" column="free_id" />
       <result property="free_skill" column="free_skill" />
-  </resultMap>
+  	</resultMap>
    
    <resultMap id="careerResult" type="freeCareerVO">
    	 <result property="free_id" column="free_id" />
@@ -40,10 +39,69 @@
    	 <result property="free_company" column="free_company" />
    </resultMap>
    
+   <resultMap id="msgResult" type="messageVO">
+   	 <result property="msg_num" column="msg_num" />
+   	 <result property="comp_id" column="comp_id" />
+   	 <result property="free_id" column="free_id" />
+   	 <result property="msg_time" column="msg_time" />
+   	 <result property="msg_content" column="msg_content" />
+   	 <result property="comp_name" column="comp_name" />
+   	 <result property="msg_title" column="msg_title" />
+   </resultMap>
+   
+   <resultMap id="compCreerResult" type="careerVO">
+   	 <result property="comp_id" column="comp_id" />
+   	 <result property="comp_cnum" column="comp_cnum" />
+   	 <result property="comp_pname" column="comp_pname" />
+   	 <result property="comp_pwork" column="comp_pwork" />
+   	 <result property="comp_startdate" column="comp_startdate" />
+   	 <result property="comp_finishdate" column="comp_finishdate" />
+   </resultMap>
+   
+   <resultMap id="compResult" type="companyVO">
+		<result property="comp_id" column="comp_id" />
+		<result property="comp_pw" column="comp_pw" />
+		<result property="comp_mname" column="comp_mname" />
+		<result property="comp_mhp" column="comp_mhp" />
+		<result property="comp_memail" column="comp_memail" />
+		<result property="comp_bnum" column="comp_bnum" />
+		<result property="comp_career" column="comp_career" />
+		<result property="comp_name" column="comp_name" />
+		<result property="comp_stop" column="comp_stop" />
+		<result property="comp_joindate" column="comp_joindate" />
+		
+		<result property="comp_cnum" column="comp_cnum" />
+      	<result property="comp_pname" column="comp_pname" />
+     	<result property="comp_pwork" column="comp_pwork" />
+      	<result property="comp_startdate" column="comp_startdate" />
+      	<result property="comp_finishdate" column="comp_finishdate" />  
+	</resultMap>
+	
+	<resultMap id="zzimresult" type="freeZzimVO">
+      	<result property="free_id" column="free_id" />
+      	<result property="comp_id" column="comp_id" />
+  	</resultMap>
+  	
+  	<resultMap id="projectResult" type="projectVO">
+		<result property="comp_id" column="comp_id" />
+		<result property="proj_num" column="proj_num" />
+		<result property="proj_name" column="proj_name" />
+		<result property="proj_work" column="proj_work" />
+		<result property="proj_startdate" column="proj_startdate" />
+		<result property="proj_finishdate" column="proj_finishdate" />
+	</resultMap>
+ 	
+ 	<resultMap id="chartCompResult" type="chartCompVO">
+       <result property="pdate" column="pdate" />
+       <result property="cnt" column="cnt" />
+    </resultMap>
+   
  	
 	<select id="selectAllFreelancersList" resultMap="freeResult">
 		SELECT * FROM
-		fr.free_info ORDER BY free_joinDate DESC
+		fr.free_info 
+		where free_stop in (1,0)
+		ORDER BY free_joinDate DESC
 	</select>
 	
 	<update id="stopFree" parameterType="String">
@@ -182,6 +240,7 @@
       select *
       from free_career
       where free_id = #{free_id}
+      order by free_startdate DESC
    </select>
    
    <select id="numOfCareer" resultType="int" parameterType="String">
@@ -229,6 +288,162 @@
    	where free_id = #{free_id}
    </update>
    
-
-
+   <insert id="messageInsert" parameterType="messageVO" useGeneratedKeys="true" keyProperty="msg_num">
+   <selectKey keyProperty="msg_num" resultType="int" order="BEFORE">
+         SELECT MSG_SEQ.NEXTVAL FROM DUAL
+   </selectKey>
+   	insert into message
+   	values(#{msg_num}, #{comp_id}, #{free_id}, SYSTIMESTAMP, #{msg_content}, 1, #{comp_name}, #{msg_title})
+   </insert>
+   
+   <select id="msgCheckCount" parameterType="String" resultType="int">
+   		select count(*)
+		from message
+		where free_id = #{free_id} and msg_check = 1
+   </select>
+	
+	<update id="msgCheck" parameterType="String">
+		update message
+		set msg_check = 0
+		where free_id = #{free_id}
+	</update>
+	
+	<select id="compMessage" parameterType="String" resultMap="msgResult">
+		select *
+		from message
+		where free_id = #{free_id}
+	</select>
+	
+	<select id="compMsg" parameterType="java.util.Map" resultMap="msgResult">
+		select *
+		from message
+		where free_id = #{free_id} and msg_num = #{msg_num}
+	</select>
+	
+	<select id="companyInfo" parameterType="String" resultMap="compResult">
+		select *
+		from comp_info
+		where comp_id = #{comp_id}
+	</select>
+	
+	<select id="selectCareer" parameterType="String" resultMap="compCreerResult">
+		select *
+		from comp_career
+		where comp_id = #{comp_id}
+	</select>
+	
+	<update id="modCareer" parameterType="freeCareerVO">
+      update free_career set
+       free_startdate = #{free_startdate},
+       free_finishdate = #{free_finishdate},
+       free_pname = #{free_pname},
+       free_pwork = #{free_pwork},
+       free_company = #{free_company}
+      where free_id = #{free_id} and free_cnum = #{free_cnum}
+   </update>
+   
+   <insert id="insertCareer" parameterType="freeCareerVO">
+      insert into free_career values
+       (#{free_id}, #{free_cnum}, #{free_startdate}, #{free_finishdate}, #{free_pname}, #{free_pwork}, #{free_company})
+   </insert>
+   
+   <delete id="delSkill" parameterType="String">
+      delete from free_skill where free_id = #{free_id} and free_skill = #{free_skill}
+   </delete>
+   
+   <select id="getzzimlistfree" resultMap="freeResult" parameterType="String">
+         select free_info.FREE_ID as FREE_ID,FREE_PICTURE, FREE_LASTNAME, FREE_ADDR,FREE_LEVEL,FREE_BIR,free_gender from comp_zzim, free_info where free_info.FREE_ID=comp_zzim.free_id and comp_id=#{comp_id}
+   </select>
+   
+   <select id="getzziminfo" resultType="int" parameterType="freeZzimVO">
+      select count(*) FROM COMP_ZZIM where free_id = #{free_id} and comp_id = #{comp_id}
+   </select>
+   
+   <insert id="insertzzim" parameterType="freeZzimVO">
+      insert into COMP_ZZIM values(#{comp_id},#{free_id})
+   </insert>
+   
+   <delete id="deletezzim" parameterType="freeZzimVO">
+      delete from COMP_ZZIM where free_id = #{free_id} and comp_id = #{comp_id}
+   </delete>
+   
+   <select id="projectComp" resultMap="projectResult" parameterType="String">
+   		select *
+   		from project
+   		where comp_id = #{comp_id}
+   </select>
+   
+   <select id="selectChart" resultMap="chartCompResult">
+    <![CDATA[
+       select TO_CHAR(proj_startdate, 'YYYY.MM') as pdate, count(*) as cnt
+      from project
+      group by TO_CHAR(proj_startdate, 'YYYY.MM')
+      order by TO_CHAR(proj_startdate, 'YYYY.MM')
+   ]]>
+   </select>
+   
+    <select id="totalFreeCnt" resultType="int">
+       select count(*) from free_info
+    </select>
+    
+    <select id="totalCompCnt" resultType="int">
+       select count(*) from comp_info
+    </select>
+    
+    <select id="totalProjectCnt" resultType="int">
+       select count(*) from project
+    </select>
+    
+    <select id="currentProjectCnt" resultType="int">
+       select count(*) from project 
+      where TO_CHAR(proj_startdate, 'YYYY.MM') = '2020.01' OR
+    TO_CHAR(proj_startdate, 'YYYY.MM') = '2020.07' OR 
+    ( sysdate > proj_startdate AND proj_finishdate > sysdate )
+    </select>
+    
+    <select id="normalFreeCnt" resultType="int">
+       select count(*) from free_info where free_state=0 and free_stop=0
+    </select>
+    
+    <select id="stopFreeCnt" resultType="int">
+       select count(*) from free_info where free_state=1
+    </select>
+    
+    <select id="leaveFreeCnt" resultType="int">
+       select count(*) from free_info where free_stop=2
+    </select>
+    
+    <select id="normalCompCnt" resultType="int">
+       select count(*) from comp_info where comp_stop=0
+    </select>
+    
+    <select id="leaveCompCnt" resultType="int">
+       select count(*) from comp_info where comp_stop=2
+    </select>
+    
+    <select id="waitCompCnt" resultType="int">
+       select count(*) from comp_info where comp_stop=3
+    </select>
+    
+    <select id="monthFreeCnt" parameterType="String" resultType="int">
+       select count(*) from free_info 
+       where TO_CHAR(free_joindate, 'yyyy.mm') = #{ymonth}
+    </select>
+    
+    <select id="monthCompCnt" parameterType="String" resultType="int">
+       select count(*) from comp_info 
+       where TO_CHAR(comp_joindate, 'yyyy.mm') = #{ymonth}
+    </select>
+    
+    <delete id="delMessage" parameterType="messageVO">
+    	delete from message
+    	where free_id = #{free_id} and comp_id = #{comp_id} and msg_num = #{msg_num}
+    </delete>
+    
+    <select id="searchfree" parameterType="String" resultMap="freeResult">
+    	select *
+    	from free_info
+    	where free_id Like #{free_id}
+    </select>
+    
 </mapper>

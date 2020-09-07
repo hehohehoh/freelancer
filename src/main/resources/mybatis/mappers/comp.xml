@@ -24,6 +24,21 @@
       	<result property="comp_finishdate" column="comp_finishdate" />  
 	</resultMap>
 	
+	<resultMap id="projectResult" type="projectVO">
+		<result property="comp_id" column="comp_id" />
+		<result property="proj_num" column="proj_num" />
+		<result property="proj_name" column="proj_name" />
+		<result property="proj_work" column="proj_work" />
+		<result property="proj_startdate" column="proj_startdate" />
+		<result property="proj_finishdate" column="proj_finishdate" />
+	</resultMap>
+   
+    <resultMap id="chartFreeResult" type="chartFreeVO">
+      <result property="ppdate" column="ppdate" />
+      <result property="ccnt" column="ccnt" />
+   </resultMap>
+   
+	
 	<!-- 기업 가입 정보 insert -->
 	<insert id="insertCompInfo"  parameterType="companyVO">
 		insert into comp_info
@@ -74,8 +89,6 @@
       where comp_id = #{comp_id}
    </update>
    
-   
-   
    <!-- 마이페이지 개인정보 수정 -->
    <update id="mypageInfo" parameterType="companyVO">
         update COMP_INFO
@@ -84,16 +97,27 @@
    </update>
    
    <!-- 마이페이지 회사이력 불러오기 -->
-   <select id="compCareer" resultMap="compResult">
+   <select id="compCareer" resultMap="compResult" parameterType="companyVO">
      select * from comp_career
-     where comp_id=#{comp_id} 
+     where comp_id=#{comp_id}
      order by comp_cnum
+   </select>
+   
+   <select id="compProject" resultMap="projectResult" parameterType="companyVO">
+     select * from project
+     where comp_id=#{comp_id}
+     order by proj_num
    </select>
    
    <!--  마이페이지 회사이력 DB 추가 -->
    <insert id="inCareer" parameterType="companyVO">
        insert into comp_career 
        values(#{comp_id}, #{comp_cnum}, #{comp_pname}, #{comp_pwork}, #{comp_startdate}, #{comp_finishdate})
+   </insert>
+   
+   <insert id="inProject" parameterType="projectVO">
+       insert into project 
+       values(#{comp_id}, #{proj_num}, #{proj_name}, #{proj_work}, #{proj_startdate}, #{proj_finishdate})
    </insert>
    
    <!--  마이페이지 회사이력 수정 -->
@@ -103,5 +127,109 @@
       where comp_cnum = #{comp_cnum}
    </update>
     
+    <update id="reproject" parameterType="projectVO">
+      update project
+      SET proj_name = #{proj_name}, proj_work = #{proj_work}, proj_startdate = #{proj_startdate}, proj_finishdate = #{proj_finishdate}
+      where proj_num = #{proj_num}
+   </update>
+    <!--  마이페이지 회원탈퇴 -->
+   <update id="outComp" parameterType="companyVO">
+      update comp_info set comp_stop=2 where comp_id=#{comp_id}
+   </update>
     
+    <select id="listComps" resultMap="compResult">
+    select *
+    from comp_info 
+    where comp_stop in (1,0) and comp_id Not Like 'a%'
+    ORDER BY comp_joinDate DESC
+    </select>
+    
+    <update id="companyStop" parameterType="String">
+		update comp_info
+		set comp_stop = 1
+		where comp_id = #{comp_id}
+	</update>
+	
+	<update id="companyRelease" parameterType="String">
+	 update comp_info 
+	 set comp_stop = 0 
+	 where comp_id = #{comp_id}
+	</update>
+	
+	<update id="updatecareer" parameterType="String">
+    update comp_info 
+    set comp_career = ( select MAX(comp_cnum) from comp_career where comp_id= #{comp_id} )
+    where comp_id= #{comp_id}
+   </update>
+   
+   <delete id="deleteProj" parameterType="projectVO">
+   		delete from project
+   		where comp_id = #{comp_id} and proj_num = #{proj_num}
+   </delete>
+  
+  <select id="selectChart" resultMap="chartFreeResult">
+      select TO_CHAR(free_joindate, 'YYYY.MM') ppdate, count(*) ccnt
+      from free_info
+      group by TO_CHAR(free_joindate, 'YYYY.MM') 
+      order by ppdate
+  </select>
+  
+    <select id="totalFreeCnt" resultType="int">
+       select count(*) from free_info
+    </select>
+    
+    <select id="totalCompCnt" resultType="int">
+       select count(*) from comp_info
+    </select>
+    
+    <select id="totalProjectCnt" resultType="int">
+       select count(*) from project
+    </select>
+    
+    <select id="currentProjectCnt" resultType="int">
+       select count(*) from project 
+      where TO_CHAR(proj_startdate, 'YYYY.MM') = '2020.01' OR
+    TO_CHAR(proj_startdate, 'YYYY.MM') = '2020.07' OR 
+    ( sysdate > proj_startdate AND proj_finishdate > sysdate )
+    </select>
+   
+   <select id="normalFreeCnt" resultType="int">
+       select count(*) from free_info where free_state=0 and free_stop=0
+    </select>
+    
+    <select id="stopFreeCnt" resultType="int">
+       select count(*) from free_info where free_state=1
+    </select>
+    
+    <select id="leaveFreeCnt" resultType="int">
+       select count(*) from free_info where free_stop=2
+    </select>
+    
+    <select id="normalCompCnt" resultType="int">
+       select count(*) from comp_info where comp_stop=0
+    </select>
+    
+    <select id="leaveCompCnt" resultType="int">
+       select count(*) from comp_info where comp_stop=2
+    </select>
+    
+    <select id="waitCompCnt" resultType="int">
+       select count(*) from comp_info where comp_stop=3
+    </select>
+    
+    <select id="monthFreeCnt" parameterType="String" resultType="int">
+       select count(*) from free_info 
+       where TO_CHAR(free_joindate, 'yyyy.mm') = #{ymonth}
+    </select>
+    
+    <select id="monthCompCnt" parameterType="String" resultType="int">
+       select count(*) from comp_info 
+       where TO_CHAR(comp_joindate, 'yyyy.mm') = #{ymonth}
+    </select>
+    
+    <select id="searchList" parameterType="String" resultMap="compResult">
+    	select *
+    	from comp_info
+    	where comp_id Like #{comp_id}
+    </select>
 </mapper>

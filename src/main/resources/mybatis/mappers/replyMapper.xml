@@ -3,7 +3,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
   
-<mapper namespace="com.spring.freelancer.mappers.ReplyMapper">
+ <mapper namespace="com.spring.freelancer.mappers.ReplyMapper">
 	<resultMap id="boardResult" type="boardVO">
 		<result property="bno" column="bno" />
 		<result property="rno" column="rno" />
@@ -12,49 +12,25 @@
 		<result property="regdate" column="regdate" />
 	</resultMap>
 	
-
-<select id="readReply" resultType="replyVO">
-	SELECT
-			RNO, CONTENT, WRITER, REGDATE
+<!-- AJAX처리  -->
+<select id="replyRead" resultType="ReplyVO">
+	SELECT RNO, CONTENT, WRITER, REGDATE
 	FROM MP_REPLY
 	WHERE BNO = #{bno}
 	ORDER BY RNO
 </select>
-
-<insert id="writeReply">
-	INSERT INTO MP_REPLY(
-							BNO
-							,RNO
-							,CONTENT
-							,WRITER
-							)
-							
-					VALUES(	#{bno}
-							, MP_REPLY_SEQ.NEXTVAL
-							, #{content}
-							, #{writer}
-							)
+<insert id="insertReply" parameterType="ReplyVO">
+	INSERT INTO
+	MP_REPLY (RNO, BNO ,CONTENT, WRITER)
+	VALUES(MP_REPLY_SEQ.NEXTVAL, #{bno}, #{content}, #{writer})
 </insert>
-
-<update id="updateReply" parameterType="ReplyVO">
-	UPDATE MP_REPLY SET CONTENT = #{content}
+<update id="replyUpdate" parameterType="ReplyVO">
+	UPDATE MP_REPLY
+	SET CONTENT = #{content}
 	WHERE RNO = #{rno}
 </update>
-
-<delete id="deleteReply" parameterType="ReplyVO">
-	DELETE FROM MP_REPLY
-	WHERE RNO = #{rno}
+<delete id="replyDelete" parameterType="int" >
+	DELETE FROM MP_REPLY WHERE RNO = #{rno}
 </delete>
-
-<select id="selectReply" resultType="ReplyVO" >
-	SELECT 
-			BNO
-			,RNO
-			,CONTENT
-			,WRITER
-			,REGDATE
-	FROM MP_REPLY
-	WHERE RNO = #{rno}	
-</select>
 
 </mapper>
